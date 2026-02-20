@@ -137,6 +137,78 @@
         display: none;
       }
     }
+
+    /* === BRAND MENU (removable section) === */
+    #brand-menu {
+      position: absolute;
+      right: 1rem;
+      top: 50%;
+      transform: translateY(-50%);
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      z-index: 20;
+      max-height: 70vh;
+      overflow-y: auto;
+    }
+
+    .brand-btn {
+      padding: 0.6rem 1rem;
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 0.5rem;
+      color: #fff;
+      font-size: 0.875rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      backdrop-filter: blur(10px);
+      white-space: nowrap;
+    }
+
+    .brand-btn:hover {
+      background: rgba(255, 255, 255, 0.2);
+      border-color: rgba(255, 255, 255, 0.4);
+    }
+
+    .brand-btn.active {
+      background: rgba(233, 69, 96, 0.4);
+      border-color: #e94560;
+    }
+
+    .brand-btn.save-btn {
+      background: rgba(78, 205, 196, 0.2);
+      border-color: #4ecdc4;
+    }
+
+    .brand-btn.save-btn:hover {
+      background: rgba(78, 205, 196, 0.4);
+    }
+
+    .brand-btn.delete-btn {
+      background: rgba(255, 100, 100, 0.2);
+      border-color: #ff6464;
+      font-size: 0.75rem;
+      padding: 0.3rem 0.6rem;
+    }
+
+    .brand-item {
+      display: flex;
+      gap: 0.25rem;
+      align-items: center;
+    }
+
+    @media (max-width: 768px) {
+      #brand-menu {
+        right: 0.5rem;
+        max-height: 50vh;
+      }
+
+      .brand-btn {
+        padding: 0.5rem 0.75rem;
+        font-size: 0.75rem;
+      }
+    }
+    /* === END BRAND MENU === */
   </style>
 </head>
 <body>
@@ -147,6 +219,13 @@
   <div id="canvas-container">
     <canvas id="three-canvas"></canvas>
   </div>
+
+  <!-- === BRAND MENU (removable section) === -->
+  <div id="brand-menu">
+    <button class="brand-btn save-btn" id="save-brand-btn">+ Save Position</button>
+    <div id="brand-list"></div>
+  </div>
+  <!-- === END BRAND MENU === -->
 
   <footer>
     <p>&copy; 2026 World Cup</p>
@@ -272,14 +351,88 @@
 
     window.addEventListener('resize', handleResize);
 
+    /* === BRAND ROTATION DATA (edit this to save permanent positions) === */
+    const brandRotations = [
+      // { name: 'Brand Name', x: 0, y: 0, z: 0 },
+    ];
+    /* === END BRAND ROTATION DATA === */
+
+    let isAnimatingToTarget = false;
+    let targetRotation = null;
+
+    function saveBrandPosition() {
+      if (!pivot) return;
+      const name = prompt('Enter brand name:');
+      if (!name) return;
+
+      brandRotations.push({
+        name: name,
+        x: pivot.rotation.x,
+        y: pivot.rotation.y,
+        z: pivot.rotation.z
+      });
+
+      renderBrandList();
+      console.log('Brand rotations:', JSON.stringify(brandRotations, null, 2));
+    }
+
+    function animateToRotation(target) {
+      autoRotate = false;
+      if (resumeTimeout) {
+        clearTimeout(resumeTimeout);
+        resumeTimeout = null;
+      }
+      targetRotation = target;
+      isAnimatingToTarget = true;
+    }
+
+    function deleteBrand(index) {
+      brandRotations.splice(index, 1);
+      renderBrandList();
+    }
+
+    function renderBrandList() {
+      const list = document.getElementById('brand-list');
+      list.innerHTML = brandRotations.map((brand, i) => `
+        <div class="brand-item">
+          <button class="brand-btn" onclick="window.selectBrand(${i})">${brand.name}</button>
+          <button class="brand-btn delete-btn" onclick="window.deleteBrand(${i})">X</button>
+        </div>
+      `).join('');
+    }
+
+    window.selectBrand = (index) => {
+      const brand = brandRotations[index];
+      if (brand) animateToRotation({ x: brand.x, y: brand.y, z: brand.z });
+    };
+    window.deleteBrand = deleteBrand;
+
+    document.getElementById('save-brand-btn').addEventListener('click', saveBrandPosition);
+    renderBrandList();
+
     function animate() {
       requestAnimationFrame(animate);
       controls.update();
-      if (pivot && autoRotate) {
+
+      if (pivot && isAnimatingToTarget && targetRotation) {
+        const speed = 0.05;
+        pivot.rotation.x += (targetRotation.x - pivot.rotation.x) * speed;
+        pivot.rotation.y += (targetRotation.y - pivot.rotation.y) * speed;
+        pivot.rotation.z += (targetRotation.z - pivot.rotation.z) * speed;
+
+        const dx = Math.abs(targetRotation.x - pivot.rotation.x);
+        const dy = Math.abs(targetRotation.y - pivot.rotation.y);
+        const dz = Math.abs(targetRotation.z - pivot.rotation.z);
+        if (dx < 0.001 && dy < 0.001 && dz < 0.001) {
+          isAnimatingToTarget = false;
+          targetRotation = null;
+        }
+      } else if (pivot && autoRotate) {
         pivot.rotation.x += 0.003;
         pivot.rotation.y += 0.007;
         pivot.rotation.z += 0.002;
       }
+
       renderer.render(scene, camera);
     }
 
