@@ -426,6 +426,7 @@
     controls.dampingFactor = 0.05;
     controls.enableZoom = false;
     controls.enablePan = false;
+    controls.saveState();
 
     let resumeTimeout = null;
 
@@ -543,6 +544,10 @@
         clearTimeout(resumeTimeout);
         resumeTimeout = null;
       }
+      
+      // Reset camera to default position for consistent brand views
+      controls.reset();
+      
       targetRotation = target;
       isAnimatingToTarget = true;
     }
