@@ -138,13 +138,88 @@
       }
     }
 
-    /* === BRAND MENU (removable section) === */
+    /* === BRAND SIDE MENUS === */
+    .brand-side-menu {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+      z-index: 20;
+    }
+
+    .brand-side-menu.left {
+      left: 1.5rem;
+    }
+
+    .brand-side-menu.right {
+      right: 1.5rem;
+    }
+
+    .brand-side-btn {
+      padding: 0.75rem 1.25rem;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 0.5rem;
+      color: #fff;
+      font-size: 0.9rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      backdrop-filter: blur(10px);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .brand-side-btn:hover {
+      background: rgba(233, 69, 96, 0.3);
+      border-color: #e94560;
+      transform: scale(1.05);
+    }
+
+    .brand-side-menu.left .brand-side-btn {
+      text-align: left;
+    }
+
+    .brand-side-menu.right .brand-side-btn {
+      text-align: right;
+    }
+
+    @media (max-width: 900px) {
+      .brand-side-menu {
+        gap: 0.5rem;
+      }
+
+      .brand-side-btn {
+        padding: 0.5rem 0.75rem;
+        font-size: 0.7rem;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .brand-side-menu.left {
+        left: 0.5rem;
+      }
+
+      .brand-side-menu.right {
+        right: 0.5rem;
+      }
+
+      .brand-side-btn {
+        padding: 0.4rem 0.6rem;
+        font-size: 0.65rem;
+      }
+    }
+    /* === END BRAND SIDE MENUS === */
+
+    /* === ROTATION MENU (hidden) === */
     #brand-menu {
       position: absolute;
       right: 1rem;
       top: 50%;
       transform: translateY(-50%);
-      display: flex;
+      display: none; /* HIDDEN - change to flex to show */
       flex-direction: column;
       gap: 0.5rem;
       z-index: 20;
@@ -267,7 +342,22 @@
     <canvas id="three-canvas"></canvas>
   </div>
 
-  <!-- === BRAND MENU (removable section) === -->
+  <!-- === BRAND SIDE MENUS === -->
+  <div class="brand-side-menu left">
+    <button class="brand-side-btn" data-brand="0">Hollister</button>
+    <button class="brand-side-btn" data-brand="1">Harley Davidson</button>
+    <button class="brand-side-btn" data-brand="2">Timberland</button>
+    <button class="brand-side-btn" data-brand="3">Gant</button>
+  </div>
+  <div class="brand-side-menu right">
+    <button class="brand-side-btn" data-brand="4">Adidas Original</button>
+    <button class="brand-side-btn" data-brand="5">Skechers</button>
+    <button class="brand-side-btn" data-brand="6">Adidas Sport</button>
+    <button class="brand-side-btn" data-brand="7">Marcolin</button>
+  </div>
+  <!-- === END BRAND SIDE MENUS === -->
+
+  <!-- === ROTATION MENU (hidden) === -->
   <div id="brand-menu">
     <div class="rotation-sliders">
       <div class="slider-row">
@@ -415,9 +505,16 @@
 
     window.addEventListener('resize', handleResize);
 
-    /* === BRAND ROTATION DATA (edit this to save permanent positions) === */
+    /* === BRAND ROTATION DATA === */
     const brandRotations = [
-      // { name: 'Brand Name', x: 0, y: 0, z: 0 },
+      { name: "Hollister", x: -0.52159, y: -0.44159, z: -0.66159 },
+      { name: "Harley Davidson", x: -0.99159, y: 1.33841, z: -1.46159 },
+      { name: "Timberland", x: -1.65159, y: 0.06841, z: -1.76159 },
+      { name: "Gant", x: 0.67841, y: -2.12159, z: -0.88159 },
+      { name: "Adidas Original", x: -0.41159, y: -2.41159, z: -0.88159 },
+      { name: "Skechers", x: 0.27841, y: 2.97841, z: -0.74159 },
+      { name: "Adidas Sport", x: -0.92159, y: 0.38841, z: 1.18841 },
+      { name: "Marcolin", x: 0.42841, y: -0.23159, z: -0.81159 }
     ];
     /* === END BRAND ROTATION DATA === */
 
@@ -473,6 +570,14 @@
 
     document.getElementById('save-brand-btn').addEventListener('click', saveBrandPosition);
     renderBrandList();
+
+    document.querySelectorAll('.brand-side-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const index = parseInt(btn.dataset.brand);
+        const brand = brandRotations[index];
+        if (brand) animateToRotation({ x: brand.x, y: brand.y, z: brand.z });
+      });
+    });
 
     const sliderX = document.getElementById('slider-x');
     const sliderY = document.getElementById('slider-y');
