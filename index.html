@@ -476,6 +476,78 @@
       color: rgba(255, 255, 255, 0.4);
     }
     /* === END REGION HIGHLIGHT INFO === */
+
+    /* === BRAND POPUP === */
+    #brand-popup {
+      position: absolute;
+      background: rgba(0, 0, 0, 0.85);
+      backdrop-filter: blur(15px);
+      border: 2px solid #e94560;
+      border-radius: 1rem;
+      padding: 1rem 1.5rem;
+      z-index: 100;
+      display: none;
+      transform: translate(-50%, -100%);
+      margin-top: -15px;
+      min-width: 120px;
+      text-align: center;
+      box-shadow: 0 10px 40px rgba(233, 69, 96, 0.3);
+      animation: popupIn 0.2s ease-out;
+    }
+
+    @keyframes popupIn {
+      from {
+        opacity: 0;
+        transform: translate(-50%, -80%) scale(0.9);
+      }
+      to {
+        opacity: 1;
+        transform: translate(-50%, -100%) scale(1);
+      }
+    }
+
+    #brand-popup.visible {
+      display: block;
+    }
+
+    #brand-popup .brand-name {
+      font-size: 1rem;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 0.5rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    #brand-popup .brand-action-btn {
+      padding: 0.5rem 1rem;
+      background: linear-gradient(135deg, #e94560, #ff6b6b);
+      border: none;
+      border-radius: 0.5rem;
+      color: #fff;
+      font-size: 0.8rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      width: 100%;
+    }
+
+    #brand-popup .brand-action-btn:hover {
+      transform: scale(1.05);
+      box-shadow: 0 5px 20px rgba(233, 69, 96, 0.4);
+    }
+
+    #brand-popup::after {
+      content: '';
+      position: absolute;
+      bottom: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+      border-left: 10px solid transparent;
+      border-right: 10px solid transparent;
+      border-top: 10px solid #e94560;
+    }
+    /* === END BRAND POPUP === */
   </style>
 </head>
 <body>
@@ -486,6 +558,13 @@
   <div id="canvas-container">
     <canvas id="three-canvas"></canvas>
   </div>
+
+  <!-- === BRAND POPUP === -->
+  <div id="brand-popup">
+    <div class="brand-name" id="popup-brand-name">Brand</div>
+    <button class="brand-action-btn" id="popup-action-btn">View Brand</button>
+  </div>
+  <!-- === END BRAND POPUP === -->
 
   <!-- === REGION HIGHLIGHT INFO === -->
   <div id="highlight-info">
@@ -767,8 +846,59 @@
       highlightRing.lookAt(highlightRing.position.clone().add(normal));
     }
     
+    // Brand popup elements
+    const brandPopup = document.getElementById('brand-popup');
+    const popupBrandName = document.getElementById('popup-brand-name');
+    const popupActionBtn = document.getElementById('popup-action-btn');
+    let currentPopupBrand = null;
+    
+    function findBrandAtUV(uv) {
+      if (!uv) return null;
+      
+      for (let i = 0; i < brandRegions.length; i++) {
+        const brand = brandRegions[i];
+        const du = uv.x - brand.uv.u;
+        const dv = uv.y - brand.uv.v;
+        const distance = Math.sqrt(du * du + dv * dv);
+        
+        // Check if within brand's region (using UV distance threshold based on size)
+        const threshold = brand.size * 0.1;
+        if (distance < threshold) {
+          return { brand, index: i };
+        }
+      }
+      return null;
+    }
+    
+    function showBrandPopup(brand, screenX, screenY) {
+      popupBrandName.textContent = brand.name;
+      brandPopup.style.left = `${screenX}px`;
+      brandPopup.style.top = `${screenY}px`;
+      brandPopup.classList.add('visible');
+      currentPopupBrand = brand;
+    }
+    
+    function hideBrandPopup() {
+      brandPopup.classList.remove('visible');
+      currentPopupBrand = null;
+    }
+    
+    popupActionBtn.addEventListener('click', () => {
+      if (currentPopupBrand) {
+        alert(`You clicked on ${currentPopupBrand.name}!`);
+        hideBrandPopup();
+      }
+    });
+    
+    // Hide popup when clicking elsewhere
+    document.addEventListener('click', (event) => {
+      if (!brandPopup.contains(event.target) && event.target !== canvas) {
+        hideBrandPopup();
+      }
+    });
+    
     function onCanvasClick(event) {
-      if (!pivot || !mappingMode) return;
+      if (!pivot) return;
       
       const rect = canvas.getBoundingClientRect();
       mouse.x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
@@ -786,8 +916,23 @@
       
       if (intersects.length > 0) {
         const intersection = intersects[0];
-        positionHighlightRing(intersection);
-        updateHighlightInfo(intersection);
+        
+        // Check if clicked on a brand region
+        if (!mappingMode) {
+          const brandHit = findBrandAtUV(intersection.uv);
+          if (brandHit) {
+            showBrandPopup(brandHit.brand, event.clientX, event.clientY);
+            return;
+          } else {
+            hideBrandPopup();
+          }
+        }
+        
+        // Mapping mode - show highlight ring and info
+        if (mappingMode) {
+          positionHighlightRing(intersection);
+          updateHighlightInfo(intersection);
+        }
       }
     }
     
@@ -840,18 +985,99 @@
     });
     /* === END RAYCASTING & REGION HIGHLIGHTING === */
 
-    /* === BRAND ROTATION DATA === */
-    const brandRotations = [
-      { name: "Hollister", x: -0.52159, y: -0.44159, z: -0.66159 },
-      { name: "Harley Davidson", x: -0.99159, y: 1.33841, z: -1.46159 },
-      { name: "Timberland", x: -1.65159, y: 0.06841, z: -1.76159 },
-      { name: "Gant", x: 0.67841, y: -2.12159, z: -0.88159 },
-      { name: "Adidas Original", x: -0.41159, y: -2.41159, z: -0.88159 },
-      { name: "Skechers", x: 0.27841, y: 2.97841, z: -0.74159 },
-      { name: "Adidas Sport", x: -0.92159, y: 0.38841, z: 1.18841 },
-      { name: "Marcolin", x: 0.42841, y: -0.23159, z: -0.81159 }
+    /* === BRAND UV DATA === */
+    const brandRegions = [
+      {
+        name: "Hollister",
+        size: 0.5,
+        point: { x: 0.0014151827467033251, y: 0.14718801089435038, z: 1.1933958632090875 },
+        normal: { x: -0.9189498664150685, y: 0.03131012963733455, z: -0.39312951911274885 },
+        uv: { u: 0.7188767028866107, v: 0.4438278124236257 }
+      },
+      {
+        name: "Harley Davidson",
+        size: 0.5,
+        point: { x: 0.0014151827467033251, y: 0.14718801089435038, z: 1.1933958632090875 },
+        normal: { x: -0.9189498664150685, y: 0.03131012963733455, z: -0.39312951911274885 },
+        uv: { u: 0.7188767028866107, v: 0.4438278124236257 }
+      },
+      {
+        name: "Timberland",
+        size: 0.5,
+        point: { x: 0.0014151827467033251, y: 0.14718801089435038, z: 1.1933958632090875 },
+        normal: { x: -0.9189498664150685, y: 0.03131012963733455, z: -0.39312951911274885 },
+        uv: { u: 0.7188767028866107, v: 0.4438278124236257 }
+      },
+      {
+        name: "Gant",
+        size: 0.5,
+        point: { x: 0.0014151827467033251, y: 0.14718801089435038, z: 1.1933958632090875 },
+        normal: { x: -0.9189498664150685, y: 0.03131012963733455, z: -0.39312951911274885 },
+        uv: { u: 0.7188767028866107, v: 0.4438278124236257 }
+      },
+      {
+        name: "Adidas Original",
+        size: 0.5,
+        point: { x: 0.0014151827467033251, y: 0.14718801089435038, z: 1.1933958632090875 },
+        normal: { x: -0.9189498664150685, y: 0.03131012963733455, z: -0.39312951911274885 },
+        uv: { u: 0.7188767028866107, v: 0.4438278124236257 }
+      },
+      {
+        name: "Skechers",
+        size: 0.5,
+        point: { x: 0.0014151827467033251, y: 0.14718801089435038, z: 1.1933958632090875 },
+        normal: { x: -0.9189498664150685, y: 0.03131012963733455, z: -0.39312951911274885 },
+        uv: { u: 0.7188767028866107, v: 0.4438278124236257 }
+      },
+      {
+        name: "Adidas Sport",
+        size: 0.5,
+        point: { x: 0.0014151827467033251, y: 0.14718801089435038, z: 1.1933958632090875 },
+        normal: { x: -0.9189498664150685, y: 0.03131012963733455, z: -0.39312951911274885 },
+        uv: { u: 0.7188767028866107, v: 0.4438278124236257 }
+      },
+      {
+        name: "Marcolin",
+        size: 0.5,
+        point: { x: 0.0014151827467033251, y: 0.14718801089435038, z: 1.1933958632090875 },
+        normal: { x: -0.9189498664150685, y: 0.03131012963733455, z: -0.39312951911274885 },
+        uv: { u: 0.7188767028866107, v: 0.4438278124236257 }
+      }
     ];
-    /* === END BRAND ROTATION DATA === */
+    
+    // Calculate optimal rotation to face a point toward camera
+    function calculateOptimalRotation(pointOnSurface) {
+      const point = new THREE.Vector3(pointOnSurface.x, pointOnSurface.y, pointOnSurface.z);
+      point.normalize();
+      
+      // We want this point to face the camera (toward +Z)
+      // Calculate rotation using quaternion that rotates point to (0, 0, 1)
+      const targetDir = new THREE.Vector3(0, 0, 1);
+      const quaternion = new THREE.Quaternion();
+      quaternion.setFromUnitVectors(point, targetDir);
+      
+      // Convert quaternion to euler angles
+      const euler = new THREE.Euler();
+      euler.setFromQuaternion(quaternion);
+      
+      return { x: euler.x, y: euler.y, z: euler.z };
+    }
+    
+    // Find shortest rotation path considering current rotation
+    function getShortestRotation(current, target) {
+      const normalizeAngle = (angle) => {
+        while (angle > Math.PI) angle -= 2 * Math.PI;
+        while (angle < -Math.PI) angle += 2 * Math.PI;
+        return angle;
+      };
+      
+      return {
+        x: current.x + normalizeAngle(target.x - current.x),
+        y: current.y + normalizeAngle(target.y - current.y),
+        z: current.z + normalizeAngle(target.z - current.z)
+      };
+    }
+    /* === END BRAND UV DATA === */
 
     let isAnimatingToTarget = false;
     let targetRotation = null;
@@ -882,8 +1108,23 @@
       // Reset camera to default position for consistent brand views
       controls.reset();
       
-      targetRotation = target;
+      // Get shortest path rotation
+      if (pivot) {
+        const currentRot = { x: pivot.rotation.x, y: pivot.rotation.y, z: pivot.rotation.z };
+        targetRotation = getShortestRotation(currentRot, target);
+      } else {
+        targetRotation = target;
+      }
       isAnimatingToTarget = true;
+    }
+    
+    function animateToBrand(brandIndex) {
+      const brand = brandRegions[brandIndex];
+      if (!brand || !pivot) return;
+      
+      // Calculate optimal rotation from the brand's surface point
+      const optimalRot = calculateOptimalRotation(brand.point);
+      animateToRotation(optimalRot);
     }
 
     function deleteBrand(index) {
@@ -913,8 +1154,7 @@
     document.querySelectorAll('.brand-side-btn').forEach(btn => {
       btn.addEventListener('click', () => {
         const index = parseInt(btn.dataset.brand);
-        const brand = brandRotations[index];
-        if (brand) animateToRotation({ x: brand.x, y: brand.y, z: brand.z });
+        animateToBrand(index);
       });
     });
 
