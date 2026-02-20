@@ -195,17 +195,24 @@
         const box = new THREE.Box3().setFromObject(model);
         const center = box.getCenter(new THREE.Vector3());
         const size = box.getSize(new THREE.Vector3());
-        
-        model.position.set(-center.x, -center.y, -center.z);
-        
-        pivot = new THREE.Group();
-        pivot.add(model);
-        
         const maxDim = Math.max(size.x, size.y, size.z);
         const scale = 2 / maxDim;
-        pivot.scale.setScalar(scale);
         
+        model.traverse((child) => {
+          if (child.isMesh) {
+            child.geometry.computeBoundingBox();
+          }
+        });
+        
+        pivot = new THREE.Group();
         scene.add(pivot);
+        
+        const inner = new THREE.Group();
+        inner.position.set(-center.x, -center.y, -center.z);
+        inner.add(model);
+        
+        pivot.add(inner);
+        pivot.scale.setScalar(scale);
       },
       (progress) => {
         console.log('Loading:', (progress.loaded / progress.total * 100) + '%');
@@ -244,7 +251,7 @@
     function animate() {
       requestAnimationFrame(animate);
       if (pivot) {
-        pivot.rotation.z += 0.01;
+        pivot.rotation.y += 0.01;
       }
       renderer.render(scene, camera);
     }
