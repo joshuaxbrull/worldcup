@@ -184,24 +184,28 @@
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     renderer.outputColorSpace = THREE.SRGBColorSpace;
 
-    let model = null;
+    let pivot = null;
 
     const loader = new GLTFLoader();
     loader.load(
       'ball.glb',
       (gltf) => {
-        model = gltf.scene;
+        const model = gltf.scene;
         
         const box = new THREE.Box3().setFromObject(model);
+        const center = box.getCenter(new THREE.Vector3());
         const size = box.getSize(new THREE.Vector3());
+        
+        model.position.set(-center.x, -center.y, -center.z);
+        
+        pivot = new THREE.Group();
+        pivot.add(model);
+        
         const maxDim = Math.max(size.x, size.y, size.z);
         const scale = 2 / maxDim;
-        model.scale.setScalar(scale);
+        pivot.scale.setScalar(scale);
         
-        const center = box.getCenter(new THREE.Vector3());
-        model.position.sub(center.multiplyScalar(scale));
-        
-        scene.add(model);
+        scene.add(pivot);
       },
       (progress) => {
         console.log('Loading:', (progress.loaded / progress.total * 100) + '%');
@@ -239,8 +243,8 @@
 
     function animate() {
       requestAnimationFrame(animate);
-      if (model) {
-        model.rotation.y += 0.01;
+      if (pivot) {
+        pivot.rotation.z += 0.01;
       }
       renderer.render(scene, camera);
     }
