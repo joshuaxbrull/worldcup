@@ -276,7 +276,9 @@
       requestAnimationFrame(animate);
       controls.update();
       if (pivot && autoRotate) {
-        pivot.rotation.y += 0.01;
+        pivot.rotation.x += 0.003;
+        pivot.rotation.y += 0.007;
+        pivot.rotation.z += 0.002;
       }
       renderer.render(scene, camera);
     }
