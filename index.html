@@ -152,8 +152,18 @@
     <p>&copy; 2026 World Cup</p>
   </footer>
 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-  <script>
+  <script type="importmap">
+    {
+      "imports": {
+        "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+        "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
+      }
+    }
+  </script>
+  <script type="module">
+    import * as THREE from 'three';
+    import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+
     const canvas = document.getElementById('three-canvas');
     const scene = new THREE.Scene();
     
@@ -172,27 +182,48 @@
     });
     renderer.setSize(canvas.clientWidth, canvas.clientHeight);
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    renderer.outputColorSpace = THREE.SRGBColorSpace;
 
-    const geometry = new THREE.IcosahedronGeometry(1, 1);
-    const material = new THREE.MeshStandardMaterial({
-      color: 0xe94560,
-      metalness: 0.3,
-      roughness: 0.4,
-      wireframe: false,
-      flatShading: true
-    });
-    const mesh = new THREE.Mesh(geometry, material);
-    scene.add(mesh);
+    let model = null;
 
-    const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
+    const loader = new GLTFLoader();
+    loader.load(
+      'ball.glb',
+      (gltf) => {
+        model = gltf.scene;
+        
+        const box = new THREE.Box3().setFromObject(model);
+        const size = box.getSize(new THREE.Vector3());
+        const maxDim = Math.max(size.x, size.y, size.z);
+        const scale = 2 / maxDim;
+        model.scale.setScalar(scale);
+        
+        const center = box.getCenter(new THREE.Vector3());
+        model.position.sub(center.multiplyScalar(scale));
+        
+        scene.add(model);
+      },
+      (progress) => {
+        console.log('Loading:', (progress.loaded / progress.total * 100) + '%');
+      },
+      (error) => {
+        console.error('Error loading model:', error);
+      }
+    );
+
+    const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
     scene.add(ambientLight);
 
-    const pointLight = new THREE.PointLight(0xff6b6b, 1);
-    pointLight.position.set(5, 5, 5);
+    const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
+    directionalLight.position.set(5, 5, 5);
+    scene.add(directionalLight);
+
+    const pointLight = new THREE.PointLight(0xff6b6b, 0.8);
+    pointLight.position.set(-5, 3, 5);
     scene.add(pointLight);
 
     const pointLight2 = new THREE.PointLight(0x4ecdc4, 0.5);
-    pointLight2.position.set(-5, -5, 5);
+    pointLight2.position.set(5, -3, 5);
     scene.add(pointLight2);
 
     function handleResize() {
@@ -208,8 +239,9 @@
 
     function animate() {
       requestAnimationFrame(animate);
-      mesh.rotation.x += 0.005;
-      mesh.rotation.y += 0.01;
+      if (model) {
+        model.rotation.y += 0.01;
+      }
       renderer.render(scene, camera);
     }
 
