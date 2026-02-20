@@ -194,8 +194,20 @@
     controls.enableZoom = false;
     controls.enablePan = false;
 
+    let resumeTimeout = null;
+
     controls.addEventListener('start', () => {
       autoRotate = false;
+      if (resumeTimeout) {
+        clearTimeout(resumeTimeout);
+        resumeTimeout = null;
+      }
+    });
+
+    controls.addEventListener('end', () => {
+      resumeTimeout = setTimeout(() => {
+        autoRotate = true;
+      }, 2000);
     });
 
     const loader = new GLTFLoader();
