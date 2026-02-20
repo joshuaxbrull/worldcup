@@ -1087,15 +1087,17 @@
       const name = prompt('Enter brand name:');
       if (!name) return;
 
-      brandRotations.push({
+      brandRegions.push({
         name: name,
-        x: pivot.rotation.x,
-        y: pivot.rotation.y,
-        z: pivot.rotation.z
+        size: 0.1,
+        point: { x: 0, y: 0, z: 1 },
+        normal: { x: 0, y: 0, z: 1 },
+        uv: { u: 0, v: 0 },
+        rotation: { x: pivot.rotation.x, y: pivot.rotation.y, z: pivot.rotation.z }
       });
 
       renderBrandList();
-      console.log('Brand rotations:', JSON.stringify(brandRotations, null, 2));
+      console.log('Brand regions:', JSON.stringify(brandRegions, null, 2));
     }
 
     function animateToRotation(target) {
@@ -1128,13 +1130,13 @@
     }
 
     function deleteBrand(index) {
-      brandRotations.splice(index, 1);
+      brandRegions.splice(index, 1);
       renderBrandList();
     }
 
     function renderBrandList() {
       const list = document.getElementById('brand-list');
-      list.innerHTML = brandRotations.map((brand, i) => `
+      list.innerHTML = brandRegions.map((brand, i) => `
         <div class="brand-item">
           <button class="brand-btn" onclick="window.selectBrand(${i})">${brand.name}</button>
           <button class="brand-btn delete-btn" onclick="window.deleteBrand(${i})">X</button>
@@ -1143,8 +1145,7 @@
     }
 
     window.selectBrand = (index) => {
-      const brand = brandRotations[index];
-      if (brand) animateToRotation({ x: brand.x, y: brand.y, z: brand.z });
+      animateToBrand(index);
     };
     window.deleteBrand = deleteBrand;
 
