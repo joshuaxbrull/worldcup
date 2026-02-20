@@ -1045,22 +1045,23 @@
       }
     ];
     
-    // Calculate optimal rotation to face a point toward camera
-    function calculateOptimalRotation(pointOnSurface) {
-      const point = new THREE.Vector3(pointOnSurface.x, pointOnSurface.y, pointOnSurface.z);
-      point.normalize();
+    // Calculate optimal rotation from UV coordinates
+    // For spherical UV mapping: U = longitude, V = latitude
+    function calculateRotationFromUV(uv) {
+      // Convert UV to spherical angles
+      // U: 0->1 maps to full rotation around Y axis
+      // V: 0->1 maps to top-to-bottom of sphere
       
-      // We want this point to face the camera (toward +Z)
-      // Calculate rotation using quaternion that rotates point to (0, 0, 1)
-      const targetDir = new THREE.Vector3(0, 0, 1);
-      const quaternion = new THREE.Quaternion();
-      quaternion.setFromUnitVectors(point, targetDir);
+      const longitude = (uv.u - 0.5) * 2 * Math.PI; // -π to π
+      const latitude = (uv.v - 0.5) * Math.PI;      // -π/2 to π/2
       
-      // Convert quaternion to euler angles
-      const euler = new THREE.Euler();
-      euler.setFromQuaternion(quaternion);
-      
-      return { x: euler.x, y: euler.y, z: euler.z };
+      // To face this point toward camera (+Z), we rotate the ball
+      // Negative because we're rotating the ball, not the camera
+      return {
+        x: -latitude,
+        y: -longitude,
+        z: 0
+      };
     }
     
     // Find shortest rotation path considering current rotation
@@ -1124,8 +1125,9 @@
       const brand = brandRegions[brandIndex];
       if (!brand || !pivot) return;
       
-      // Calculate optimal rotation from the brand's surface point
-      const optimalRot = calculateOptimalRotation(brand.point);
+      // Calculate optimal rotation from the brand's UV coordinates
+      const optimalRot = calculateRotationFromUV(brand.uv);
+      console.log(`Rotating to ${brand.name}:`, optimalRot);
       animateToRotation(optimalRot);
     }
 
