@@ -163,6 +163,7 @@
   <script type="module">
     import * as THREE from 'three';
     import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+    import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 
     const canvas = document.getElementById('three-canvas');
     const scene = new THREE.Scene();
@@ -185,6 +186,17 @@
     renderer.outputColorSpace = THREE.SRGBColorSpace;
 
     let pivot = null;
+    let autoRotate = true;
+
+    const controls = new OrbitControls(camera, canvas);
+    controls.enableDamping = true;
+    controls.dampingFactor = 0.05;
+    controls.enableZoom = false;
+    controls.enablePan = false;
+
+    controls.addEventListener('start', () => {
+      autoRotate = false;
+    });
 
     const loader = new GLTFLoader();
     loader.load(
@@ -250,7 +262,8 @@
 
     function animate() {
       requestAnimationFrame(animate);
-      if (pivot) {
+      controls.update();
+      if (pivot && autoRotate) {
         pivot.rotation.y += 0.01;
       }
       renderer.render(scene, camera);
