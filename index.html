@@ -250,8 +250,9 @@
     }
 
     .brand-btn.active {
-      background: rgba(233, 69, 96, 0.4);
-      border-color: #e94560;
+      background: rgba(78, 205, 196, 0.4);
+      border-color: #4ecdc4;
+      box-shadow: 0 0 10px rgba(78, 205, 196, 0.5);
     }
 
     .brand-btn.save-btn {
@@ -347,6 +348,65 @@
       }
     }
     /* === END BRAND MENU === */
+
+    /* === REGION HIGHLIGHT INFO === */
+    #highlight-info {
+      position: absolute;
+      top: 5rem;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(0, 0, 0, 0.6);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(78, 205, 196, 0.5);
+      border-radius: 0.75rem;
+      padding: 0.75rem 1.25rem;
+      z-index: 25;
+      font-size: 0.8rem;
+      color: #fff;
+      display: none;
+    }
+
+    #highlight-info.visible {
+      display: block;
+    }
+
+    #highlight-info .info-row {
+      display: flex;
+      gap: 1rem;
+      margin-bottom: 0.25rem;
+    }
+
+    #highlight-info .info-row:last-child {
+      margin-bottom: 0;
+    }
+
+    #highlight-info .label {
+      color: #4ecdc4;
+      font-weight: 600;
+      min-width: 3rem;
+    }
+
+    #highlight-info .value {
+      font-family: monospace;
+    }
+
+    #save-region-btn {
+      margin-top: 0.5rem;
+      width: 100%;
+      padding: 0.5rem;
+      background: rgba(78, 205, 196, 0.2);
+      border: 1px solid #4ecdc4;
+      border-radius: 0.5rem;
+      color: #fff;
+      font-size: 0.75rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    #save-region-btn:hover {
+      background: rgba(78, 205, 196, 0.4);
+    }
+    /* === END REGION HIGHLIGHT INFO === */
   </style>
 </head>
 <body>
@@ -357,6 +417,24 @@
   <div id="canvas-container">
     <canvas id="three-canvas"></canvas>
   </div>
+
+  <!-- === REGION HIGHLIGHT INFO === -->
+  <div id="highlight-info">
+    <div class="info-row">
+      <span class="label">3D:</span>
+      <span class="value" id="info-3d">x: 0, y: 0, z: 0</span>
+    </div>
+    <div class="info-row">
+      <span class="label">UV:</span>
+      <span class="value" id="info-uv">u: 0, v: 0</span>
+    </div>
+    <div class="info-row">
+      <span class="label">Normal:</span>
+      <span class="value" id="info-normal">x: 0, y: 0, z: 0</span>
+    </div>
+    <button id="save-region-btn">Save This Region</button>
+  </div>
+  <!-- === END REGION HIGHLIGHT INFO === -->
 
   <!-- === BRAND SIDE MENUS === -->
   <div class="brand-side-menu left">
@@ -375,6 +453,7 @@
 
   <!-- === MAPPING MENU (bottom) === -->
   <div id="brand-menu">
+    <button class="brand-btn" id="toggle-mapping-btn">Enable Mapping</button>
     <div class="rotation-sliders">
       <div class="slider-row">
         <label>X</label>
@@ -392,7 +471,7 @@
         <span class="value" id="value-z">0°</span>
       </div>
     </div>
-    <button class="brand-btn save-btn" id="save-brand-btn">+ Save Position</button>
+    <button class="brand-btn save-btn" id="save-brand-btn">+ Save Rotation</button>
     <div id="brand-list" style="display: none;"></div>
   </div>
   <!-- === END MAPPING MENU === -->
@@ -521,6 +600,140 @@
     }
 
     window.addEventListener('resize', handleResize);
+
+    /* === RAYCASTING & REGION HIGHLIGHTING === */
+    const raycaster = new THREE.Raycaster();
+    const mouse = new THREE.Vector2();
+    
+    // Highlight ring to show selected region
+    const highlightGeometry = new THREE.RingGeometry(0.08, 0.12, 32);
+    const highlightMaterial = new THREE.MeshBasicMaterial({
+      color: 0x4ecdc4,
+      side: THREE.DoubleSide,
+      transparent: true,
+      opacity: 0.8,
+      depthTest: false
+    });
+    const highlightRing = new THREE.Mesh(highlightGeometry, highlightMaterial);
+    highlightRing.visible = false;
+    scene.add(highlightRing);
+    
+    let currentHighlight = null;
+    let mappingMode = false;
+    const savedRegions = [];
+    
+    const highlightInfo = document.getElementById('highlight-info');
+    const info3D = document.getElementById('info-3d');
+    const infoUV = document.getElementById('info-uv');
+    const infoNormal = document.getElementById('info-normal');
+    
+    function updateHighlightInfo(intersection) {
+      if (!intersection) {
+        highlightInfo.classList.remove('visible');
+        return;
+      }
+      
+      highlightInfo.classList.add('visible');
+      
+      const point = intersection.point;
+      const normal = intersection.face ? intersection.face.normal.clone() : new THREE.Vector3(0, 0, 1);
+      const uv = intersection.uv || { x: 0, y: 0 };
+      
+      info3D.textContent = `x: ${point.x.toFixed(3)}, y: ${point.y.toFixed(3)}, z: ${point.z.toFixed(3)}`;
+      infoUV.textContent = `u: ${uv.x.toFixed(3)}, v: ${uv.y.toFixed(3)}`;
+      infoNormal.textContent = `x: ${normal.x.toFixed(3)}, y: ${normal.y.toFixed(3)}, z: ${normal.z.toFixed(3)}`;
+      
+      currentHighlight = {
+        point: point.clone(),
+        normal: normal.clone(),
+        uv: { u: uv.x, v: uv.y }
+      };
+    }
+    
+    function positionHighlightRing(intersection) {
+      if (!intersection || !intersection.face) {
+        highlightRing.visible = false;
+        return;
+      }
+      
+      highlightRing.visible = true;
+      highlightRing.position.copy(intersection.point);
+      
+      // Orient ring to face normal
+      const normal = intersection.face.normal.clone();
+      // Transform normal by object's world matrix rotation
+      const normalMatrix = new THREE.Matrix3().getNormalMatrix(intersection.object.matrixWorld);
+      normal.applyMatrix3(normalMatrix).normalize();
+      
+      // Offset slightly along normal to prevent z-fighting
+      highlightRing.position.addScaledVector(normal, 0.01);
+      
+      // Make ring face outward along normal
+      highlightRing.lookAt(highlightRing.position.clone().add(normal));
+    }
+    
+    function onCanvasClick(event) {
+      if (!pivot || !mappingMode) return;
+      
+      const rect = canvas.getBoundingClientRect();
+      mouse.x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
+      mouse.y = -((event.clientY - rect.top) / rect.height) * 2 + 1;
+      
+      raycaster.setFromCamera(mouse, camera);
+      
+      // Get all meshes from the pivot
+      const meshes = [];
+      pivot.traverse((child) => {
+        if (child.isMesh) meshes.push(child);
+      });
+      
+      const intersects = raycaster.intersectObjects(meshes, false);
+      
+      if (intersects.length > 0) {
+        const intersection = intersects[0];
+        positionHighlightRing(intersection);
+        updateHighlightInfo(intersection);
+      }
+    }
+    
+    canvas.addEventListener('click', onCanvasClick);
+    
+    const toggleMappingBtn = document.getElementById('toggle-mapping-btn');
+    toggleMappingBtn.addEventListener('click', () => {
+      mappingMode = !mappingMode;
+      toggleMappingBtn.textContent = mappingMode ? 'Disable Mapping' : 'Enable Mapping';
+      toggleMappingBtn.classList.toggle('active', mappingMode);
+      
+      if (mappingMode) {
+        autoRotate = false;
+        if (resumeTimeout) {
+          clearTimeout(resumeTimeout);
+          resumeTimeout = null;
+        }
+      }
+      
+      if (!mappingMode) {
+        highlightRing.visible = false;
+        highlightInfo.classList.remove('visible');
+        currentHighlight = null;
+      }
+    });
+    
+    document.getElementById('save-region-btn').addEventListener('click', () => {
+      if (!currentHighlight) return;
+      
+      const name = prompt('Enter brand/region name:');
+      if (!name) return;
+      
+      savedRegions.push({
+        name: name,
+        ...currentHighlight
+      });
+      
+      console.log('Saved regions:', JSON.stringify(savedRegions, null, 2));
+      alert(`Region "${name}" saved! Check console for data.`);
+    });
+    /* === END RAYCASTING & REGION HIGHLIGHTING === */
 
     /* === BRAND ROTATION DATA === */
     const brandRotations = [
