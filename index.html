@@ -197,6 +197,53 @@
       align-items: center;
     }
 
+    .rotation-sliders {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      padding: 0.75rem;
+      background: rgba(0, 0, 0, 0.3);
+      border-radius: 0.5rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .slider-row {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .slider-row label {
+      font-size: 0.75rem;
+      width: 1.5rem;
+      font-weight: 600;
+    }
+
+    .slider-row input[type="range"] {
+      flex: 1;
+      height: 4px;
+      -webkit-appearance: none;
+      background: rgba(255, 255, 255, 0.2);
+      border-radius: 2px;
+      cursor: pointer;
+    }
+
+    .slider-row input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 14px;
+      height: 14px;
+      background: #e94560;
+      border-radius: 50%;
+      cursor: pointer;
+    }
+
+    .slider-row .value {
+      font-size: 0.7rem;
+      width: 3rem;
+      text-align: right;
+      opacity: 0.7;
+    }
+
     @media (max-width: 768px) {
       #brand-menu {
         right: 0.5rem;
@@ -222,6 +269,23 @@
 
   <!-- === BRAND MENU (removable section) === -->
   <div id="brand-menu">
+    <div class="rotation-sliders">
+      <div class="slider-row">
+        <label>X</label>
+        <input type="range" id="slider-x" min="-3.14159" max="3.14159" step="0.01" value="0">
+        <span class="value" id="value-x">0°</span>
+      </div>
+      <div class="slider-row">
+        <label>Y</label>
+        <input type="range" id="slider-y" min="-3.14159" max="3.14159" step="0.01" value="0">
+        <span class="value" id="value-y">0°</span>
+      </div>
+      <div class="slider-row">
+        <label>Z</label>
+        <input type="range" id="slider-z" min="-3.14159" max="3.14159" step="0.01" value="0">
+        <span class="value" id="value-z">0°</span>
+      </div>
+    </div>
     <button class="brand-btn save-btn" id="save-brand-btn">+ Save Position</button>
     <div id="brand-list"></div>
   </div>
@@ -410,6 +474,47 @@
     document.getElementById('save-brand-btn').addEventListener('click', saveBrandPosition);
     renderBrandList();
 
+    const sliderX = document.getElementById('slider-x');
+    const sliderY = document.getElementById('slider-y');
+    const sliderZ = document.getElementById('slider-z');
+    const valueX = document.getElementById('value-x');
+    const valueY = document.getElementById('value-y');
+    const valueZ = document.getElementById('value-z');
+
+    function toDegrees(rad) {
+      return Math.round(rad * 180 / Math.PI) + '°';
+    }
+
+    function onSliderChange() {
+      if (!pivot) return;
+      autoRotate = false;
+      isAnimatingToTarget = false;
+      if (resumeTimeout) {
+        clearTimeout(resumeTimeout);
+        resumeTimeout = null;
+      }
+      pivot.rotation.x = parseFloat(sliderX.value);
+      pivot.rotation.y = parseFloat(sliderY.value);
+      pivot.rotation.z = parseFloat(sliderZ.value);
+      valueX.textContent = toDegrees(pivot.rotation.x);
+      valueY.textContent = toDegrees(pivot.rotation.y);
+      valueZ.textContent = toDegrees(pivot.rotation.z);
+    }
+
+    function updateSliders() {
+      if (!pivot) return;
+      sliderX.value = pivot.rotation.x;
+      sliderY.value = pivot.rotation.y;
+      sliderZ.value = pivot.rotation.z;
+      valueX.textContent = toDegrees(pivot.rotation.x);
+      valueY.textContent = toDegrees(pivot.rotation.y);
+      valueZ.textContent = toDegrees(pivot.rotation.z);
+    }
+
+    sliderX.addEventListener('input', onSliderChange);
+    sliderY.addEventListener('input', onSliderChange);
+    sliderZ.addEventListener('input', onSliderChange);
+
     function animate() {
       requestAnimationFrame(animate);
       controls.update();
@@ -433,6 +538,7 @@
         pivot.rotation.z += 0.002;
       }
 
+      updateSliders();
       renderer.render(scene, camera);
     }
 
