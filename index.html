@@ -1001,7 +1001,7 @@
     });
     
     document.getElementById('save-region-btn').addEventListener('click', () => {
-      if (!currentHighlight) return;
+      if (!currentHighlight || !pivot) return;
       
       const name = prompt('Enter brand/region name:');
       if (!name) return;
@@ -1009,6 +1009,11 @@
       savedRegions.push({
         name: name,
         size: regionSize,
+        rotation: {
+          x: pivot.rotation.x,
+          y: pivot.rotation.y,
+          z: pivot.rotation.z
+        },
         ...currentHighlight
       });
       
@@ -1157,10 +1162,15 @@
       const brand = brandRegions[brandIndex];
       if (!brand || !pivot) return;
       
-      // Calculate optimal rotation from the brand's UV coordinates
-      const optimalRot = calculateRotationFromUV(brand.uv);
-      console.log(`Rotating to ${brand.name}:`, optimalRot);
-      animateToRotation(optimalRot);
+      // Use stored rotation if available, otherwise try UV calculation
+      if (brand.rotation) {
+        console.log(`Rotating to ${brand.name}:`, brand.rotation);
+        animateToRotation(brand.rotation);
+      } else {
+        const optimalRot = calculateRotationFromUV(brand.uv);
+        console.log(`Rotating to ${brand.name} (from UV):`, optimalRot);
+        animateToRotation(optimalRot);
+      }
     }
 
     function deleteBrand(index) {
