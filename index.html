@@ -62,11 +62,6 @@
       height: min(90vw, 90vh, 800px);
       max-width: 100%;
       max-height: 70vh;
-      border-radius: 1rem;
-      background: rgba(255, 255, 255, 0.03);
-      backdrop-filter: blur(10px);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
     }
 
     footer {
@@ -89,7 +84,6 @@
       #three-canvas {
         width: 95vw;
         height: 60vh;
-        border-radius: 0.75rem;
       }
 
       footer {
@@ -145,37 +139,46 @@
       transform: translateY(-50%);
       display: flex;
       flex-direction: column;
-      gap: 0.75rem;
+      gap: 0.5rem;
       z-index: 20;
     }
 
     .brand-side-menu.left {
-      left: 1.5rem;
+      left: 2rem;
     }
 
     .brand-side-menu.right {
-      right: 1.5rem;
+      right: 2rem;
     }
 
     .brand-side-btn {
-      padding: 0.75rem 1.25rem;
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid rgba(255, 255, 255, 0.15);
-      border-radius: 0.5rem;
-      color: #fff;
-      font-size: 0.9rem;
+      padding: 0.6rem 1rem;
+      background: transparent;
+      border: none;
+      border-left: 2px solid rgba(255, 255, 255, 0.2);
+      color: rgba(255, 255, 255, 0.6);
+      font-size: 0.8rem;
       font-weight: 500;
       cursor: pointer;
-      transition: all 0.3s ease;
-      backdrop-filter: blur(10px);
+      transition: all 0.25s ease;
       text-transform: uppercase;
-      letter-spacing: 0.05em;
+      letter-spacing: 0.08em;
+    }
+
+    .brand-side-menu.right .brand-side-btn {
+      border-left: none;
+      border-right: 2px solid rgba(255, 255, 255, 0.2);
     }
 
     .brand-side-btn:hover {
-      background: rgba(233, 69, 96, 0.3);
+      color: #fff;
       border-color: #e94560;
-      transform: scale(1.05);
+      padding-left: 1.25rem;
+    }
+
+    .brand-side-menu.right .brand-side-btn:hover {
+      padding-left: 1rem;
+      padding-right: 1.25rem;
     }
 
     .brand-side-menu.left .brand-side-btn {
@@ -188,12 +191,20 @@
 
     @media (max-width: 900px) {
       .brand-side-menu {
-        gap: 0.5rem;
+        gap: 0.4rem;
+      }
+
+      .brand-side-menu.left {
+        left: 1rem;
+      }
+
+      .brand-side-menu.right {
+        right: 1rem;
       }
 
       .brand-side-btn {
-        padding: 0.5rem 0.75rem;
-        font-size: 0.7rem;
+        padding: 0.4rem 0.75rem;
+        font-size: 0.65rem;
       }
     }
 
@@ -207,8 +218,9 @@
       }
 
       .brand-side-btn {
-        padding: 0.4rem 0.6rem;
-        font-size: 0.65rem;
+        padding: 0.35rem 0.5rem;
+        font-size: 0.6rem;
+        letter-spacing: 0.04em;
       }
     }
     /* === END BRAND SIDE MENUS === */
