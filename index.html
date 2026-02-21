@@ -213,13 +213,13 @@
     }
     /* === END BRAND SIDE MENUS === */
 
-    /* === ROTATION MENU (bottom) === */
+    /* === ROTATION MENU (hidden) === */
     #brand-menu {
       position: absolute;
       bottom: 3rem;
       left: 50%;
       transform: translateX(-50%);
-      display: flex;
+      display: none; /* HIDDEN - change to flex to show */
       flex-direction: row;
       align-items: center;
       gap: 1rem;
@@ -610,7 +610,7 @@
   </div>
   <!-- === END BRAND SIDE MENUS === -->
 
-  <!-- === MAPPING MENU (bottom) === -->
+  <!-- === MAPPING MENU (hidden) === -->
   <div id="brand-menu">
     <button class="brand-btn" id="toggle-autorotate-btn">Stop Rotation</button>
     <button class="brand-btn" id="toggle-mapping-btn">Enable Mapping</button>
@@ -634,7 +634,7 @@
     <button class="brand-btn save-btn" id="save-brand-btn">+ Save Rotation</button>
     <div id="brand-list" style="display: none;"></div>
   </div>
-  <!-- === END MAPPING MENU === -->
+  <!-- === END MAPPING MENU (hidden) === -->
 
   <footer>
     <p>&copy; 2026 World Cup</p>
