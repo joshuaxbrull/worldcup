@@ -675,6 +675,7 @@
 
     let pivot = null;
     let autoRotate = true;
+    let autoRotateEnabled = true; // User preference for auto-rotation
 
     const controls = new OrbitControls(camera, canvas);
     controls.enableDamping = true;
@@ -694,9 +695,11 @@
     });
 
     controls.addEventListener('end', () => {
-      resumeTimeout = setTimeout(() => {
-        autoRotate = true;
-      }, 2000);
+      if (autoRotateEnabled) {
+        resumeTimeout = setTimeout(() => {
+          autoRotate = true;
+        }, 2000);
+      }
     });
 
     const loader = new GLTFLoader();
@@ -941,9 +944,10 @@
     
     const toggleAutorotateBtn = document.getElementById('toggle-autorotate-btn');
     toggleAutorotateBtn.addEventListener('click', () => {
-      autoRotate = !autoRotate;
-      toggleAutorotateBtn.textContent = autoRotate ? 'Stop Rotation' : 'Start Rotation';
-      toggleAutorotateBtn.classList.toggle('active', !autoRotate);
+      autoRotateEnabled = !autoRotateEnabled;
+      autoRotate = autoRotateEnabled;
+      toggleAutorotateBtn.textContent = autoRotateEnabled ? 'Stop Rotation' : 'Start Rotation';
+      toggleAutorotateBtn.classList.toggle('active', !autoRotateEnabled);
       
       if (resumeTimeout) {
         clearTimeout(resumeTimeout);
@@ -959,6 +963,7 @@
       
       if (mappingMode) {
         autoRotate = false;
+        autoRotateEnabled = false;
         toggleAutorotateBtn.textContent = 'Start Rotation';
         toggleAutorotateBtn.classList.add('active');
         if (resumeTimeout) {
