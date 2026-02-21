@@ -612,6 +612,7 @@
 
   <!-- === MAPPING MENU (bottom) === -->
   <div id="brand-menu">
+    <button class="brand-btn" id="toggle-autorotate-btn">Stop Rotation</button>
     <button class="brand-btn" id="toggle-mapping-btn">Enable Mapping</button>
     <div class="rotation-sliders">
       <div class="slider-row">
@@ -938,6 +939,18 @@
     
     canvas.addEventListener('click', onCanvasClick);
     
+    const toggleAutorotateBtn = document.getElementById('toggle-autorotate-btn');
+    toggleAutorotateBtn.addEventListener('click', () => {
+      autoRotate = !autoRotate;
+      toggleAutorotateBtn.textContent = autoRotate ? 'Stop Rotation' : 'Start Rotation';
+      toggleAutorotateBtn.classList.toggle('active', !autoRotate);
+      
+      if (resumeTimeout) {
+        clearTimeout(resumeTimeout);
+        resumeTimeout = null;
+      }
+    });
+    
     const toggleMappingBtn = document.getElementById('toggle-mapping-btn');
     toggleMappingBtn.addEventListener('click', () => {
       mappingMode = !mappingMode;
@@ -946,6 +959,8 @@
       
       if (mappingMode) {
         autoRotate = false;
+        toggleAutorotateBtn.textContent = 'Start Rotation';
+        toggleAutorotateBtn.classList.add('active');
         if (resumeTimeout) {
           clearTimeout(resumeTimeout);
           resumeTimeout = null;
