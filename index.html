@@ -17,9 +17,15 @@
       overflow: hidden;
     }
 
+    html.brand-detail-view,
     body.brand-detail-view {
       overflow-y: auto;
       overflow-x: hidden;
+      height: auto;
+    }
+
+    body.brand-detail-view {
+      display: block;
       min-height: 100vh;
     }
 
@@ -976,6 +982,110 @@
         </div>
       </div>
     </div>
+
+    <div class="brand-detail-section">
+      <h3>New Arrivals</h3>
+      <div class="best-sellers-grid">
+        <div class="best-seller-card">
+          <div class="product-image">Image Placeholder</div>
+          <div class="product-name">Urban Explorer</div>
+          <div class="product-price">$179.00</div>
+        </div>
+        <div class="best-seller-card">
+          <div class="product-image">Image Placeholder</div>
+          <div class="product-name">Coastal Breeze</div>
+          <div class="product-price">$159.00</div>
+        </div>
+        <div class="best-seller-card">
+          <div class="product-image">Image Placeholder</div>
+          <div class="product-name">Metro Slim</div>
+          <div class="product-price">$139.00</div>
+        </div>
+        <div class="best-seller-card">
+          <div class="product-image">Image Placeholder</div>
+          <div class="product-name">Executive Plus</div>
+          <div class="product-price">$299.00</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="brand-detail-section">
+      <h3>Popular Categories</h3>
+      <div class="best-sellers-grid">
+        <div class="best-seller-card">
+          <div class="product-image">Image Placeholder</div>
+          <div class="product-name">Sunglasses</div>
+          <div class="product-price">From $99.00</div>
+        </div>
+        <div class="best-seller-card">
+          <div class="product-image">Image Placeholder</div>
+          <div class="product-name">Reading Glasses</div>
+          <div class="product-price">From $79.00</div>
+        </div>
+        <div class="best-seller-card">
+          <div class="product-image">Image Placeholder</div>
+          <div class="product-name">Blue Light Blockers</div>
+          <div class="product-price">From $89.00</div>
+        </div>
+        <div class="best-seller-card">
+          <div class="product-image">Image Placeholder</div>
+          <div class="product-name">Sports Eyewear</div>
+          <div class="product-price">From $129.00</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="brand-detail-section">
+      <h3>Customer Favorites</h3>
+      <div class="best-sellers-grid">
+        <div class="best-seller-card">
+          <div class="product-image">Image Placeholder</div>
+          <div class="product-name">Retro Round</div>
+          <div class="product-price">$169.00</div>
+        </div>
+        <div class="best-seller-card">
+          <div class="product-image">Image Placeholder</div>
+          <div class="product-name">Aviator Classic</div>
+          <div class="product-price">$199.00</div>
+        </div>
+        <div class="best-seller-card">
+          <div class="product-image">Image Placeholder</div>
+          <div class="product-name">Cat Eye Glam</div>
+          <div class="product-price">$189.00</div>
+        </div>
+        <div class="best-seller-card">
+          <div class="product-image">Image Placeholder</div>
+          <div class="product-name">Square Modern</div>
+          <div class="product-price">$159.00</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="brand-detail-section">
+      <h3>Limited Edition</h3>
+      <div class="best-sellers-grid">
+        <div class="best-seller-card">
+          <div class="product-image">Image Placeholder</div>
+          <div class="product-name">Artist Series 2026</div>
+          <div class="product-price">$349.00</div>
+        </div>
+        <div class="best-seller-card">
+          <div class="product-image">Image Placeholder</div>
+          <div class="product-name">Heritage Collection</div>
+          <div class="product-price">$399.00</div>
+        </div>
+        <div class="best-seller-card">
+          <div class="product-image">Image Placeholder</div>
+          <div class="product-name">Collaboration X</div>
+          <div class="product-price">$449.00</div>
+        </div>
+        <div class="best-seller-card">
+          <div class="product-image">Image Placeholder</div>
+          <div class="product-name">Signature Gold</div>
+          <div class="product-price">$599.00</div>
+        </div>
+      </div>
+    </div>
   </div>
   <!-- === END BRAND DETAIL VIEW === -->
 
@@ -1797,6 +1907,7 @@
       brandDescription.textContent = details.description;
 
       window.scrollTo(0, 0);
+      document.documentElement.classList.add('brand-detail-view');
       document.body.classList.add('brand-detail-view');
       document.body.classList.add('transitioning');
       canvasContainer.style.transform = `scale(${startScale})`;
@@ -1808,6 +1919,7 @@
 
     function hideBrandDetailView() {
       document.body.classList.add('transitioning');
+      document.documentElement.classList.remove('brand-detail-view');
       document.body.classList.remove('brand-detail-view');
       canvasContainer.style.transform = '';
       window.scrollTo(0, 0);
