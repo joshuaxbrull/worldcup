@@ -619,6 +619,203 @@
       border-top: 10px solid #e94560;
     }
     /* === END BRAND POPUP === */
+
+    /* === BRAND DETAIL VIEW === */
+    body.brand-detail-view #canvas-container {
+      transform: translateY(-15vh) scale(0.55);
+      transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    body.brand-detail-view .brand-side-menu {
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+    }
+
+    body.brand-detail-view header h1 {
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    #brand-detail {
+      position: absolute;
+      top: 55%;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      padding: 2rem;
+      opacity: 0;
+      transform: translateY(50px);
+      pointer-events: none;
+      transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+      transition-delay: 0.2s;
+      overflow-y: auto;
+    }
+
+    body.brand-detail-view #brand-detail {
+      opacity: 1;
+      transform: translateY(0);
+      pointer-events: auto;
+    }
+
+    #brand-detail-header {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+
+    #brand-detail-name {
+      font-size: clamp(1.5rem, 4vw, 2.5rem);
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      background: linear-gradient(90deg, #e94560, #ff6b6b);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 0.5rem;
+    }
+
+    #brand-detail-tagline {
+      font-size: 0.9rem;
+      color: rgba(255, 255, 255, 0.6);
+      font-style: italic;
+    }
+
+    .brand-detail-section {
+      max-width: 900px;
+      margin: 0 auto 2rem auto;
+    }
+
+    .brand-detail-section h3 {
+      font-size: 1rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: #4ecdc4;
+      margin-bottom: 1rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 1px solid rgba(78, 205, 196, 0.3);
+    }
+
+    #brand-description {
+      color: rgba(255, 255, 255, 0.8);
+      line-height: 1.7;
+      font-size: 0.95rem;
+    }
+
+    .best-sellers-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .best-seller-card {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 0.75rem;
+      padding: 1.25rem;
+      transition: all 0.3s ease;
+    }
+
+    .best-seller-card:hover {
+      background: rgba(255, 255, 255, 0.1);
+      border-color: rgba(233, 69, 96, 0.4);
+      transform: translateY(-3px);
+    }
+
+    .best-seller-card .product-image {
+      width: 100%;
+      height: 120px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 0.5rem;
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: rgba(255, 255, 255, 0.3);
+      font-size: 0.75rem;
+    }
+
+    .best-seller-card .product-name {
+      font-weight: 600;
+      margin-bottom: 0.25rem;
+      color: #fff;
+    }
+
+    .best-seller-card .product-price {
+      color: #e94560;
+      font-weight: 500;
+    }
+
+    #back-to-selection {
+      position: fixed;
+      top: 1.5rem;
+      left: 1.5rem;
+      padding: 0.6rem 1.2rem;
+      background: rgba(0, 0, 0, 0.5);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 2rem;
+      color: #fff;
+      font-size: 0.8rem;
+      cursor: pointer;
+      z-index: 100;
+      opacity: 0;
+      transform: translateX(-20px);
+      pointer-events: none;
+      transition: all 0.3s ease;
+    }
+
+    body.brand-detail-view #back-to-selection {
+      opacity: 1;
+      transform: translateX(0);
+      pointer-events: auto;
+    }
+
+    #back-to-selection:hover {
+      background: rgba(233, 69, 96, 0.3);
+      border-color: #e94560;
+    }
+
+    @media (max-width: 768px) {
+      body.brand-detail-view #canvas-container {
+        transform: translateY(-20vh) scale(0.45);
+      }
+
+      #brand-detail {
+        top: 45%;
+        padding: 1.5rem;
+      }
+
+      .best-sellers-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      body.brand-detail-view #canvas-container {
+        transform: translateY(-18vh) scale(0.4);
+      }
+
+      #brand-detail {
+        top: 40%;
+        padding: 1rem;
+      }
+
+      .best-sellers-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 0.75rem;
+      }
+
+      .best-seller-card {
+        padding: 1rem;
+      }
+
+      .best-seller-card .product-image {
+        height: 80px;
+      }
+    }
+    /* === END BRAND DETAIL VIEW === */
   </style>
 </head>
 <body>
@@ -710,6 +907,51 @@
     <div id="brand-list" style="display: none;"></div>
   </div>
   <!-- === END MAPPING MENU (hidden) === -->
+
+  <!-- === BACK BUTTON === -->
+  <button id="back-to-selection">← Back to Brands</button>
+
+  <!-- === BRAND DETAIL VIEW === -->
+  <div id="brand-detail">
+    <div id="brand-detail-header">
+      <h2 id="brand-detail-name">Brand Name</h2>
+      <p id="brand-detail-tagline">Premium eyewear collection</p>
+    </div>
+
+    <div class="brand-detail-section">
+      <h3>About the Brand</h3>
+      <p id="brand-description">
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+      </p>
+    </div>
+
+    <div class="brand-detail-section">
+      <h3>Best Sellers</h3>
+      <div class="best-sellers-grid">
+        <div class="best-seller-card">
+          <div class="product-image">Image Placeholder</div>
+          <div class="product-name">Classic Frame Model A</div>
+          <div class="product-price">$149.00</div>
+        </div>
+        <div class="best-seller-card">
+          <div class="product-image">Image Placeholder</div>
+          <div class="product-name">Sport Series Pro</div>
+          <div class="product-price">$189.00</div>
+        </div>
+        <div class="best-seller-card">
+          <div class="product-image">Image Placeholder</div>
+          <div class="product-name">Vintage Collection</div>
+          <div class="product-price">$129.00</div>
+        </div>
+        <div class="best-seller-card">
+          <div class="product-image">Image Placeholder</div>
+          <div class="product-name">Premium Titanium</div>
+          <div class="product-price">$249.00</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- === END BRAND DETAIL VIEW === -->
 
   <footer>
     <p>&copy; 2026 World Cup</p>
@@ -1172,8 +1414,8 @@
     
     popupActionBtn.addEventListener('click', () => {
       if (currentPopupBrand) {
-        alert(`You clicked on ${currentPopupBrand.name}!`);
         hideBrandPopup();
+        showBrandDetailView(currentPopupBrand);
       }
     });
     
@@ -1458,7 +1700,75 @@
         console.log(`Rotating to ${brand.name} (from UV):`, optimalRot);
         animateToRotation(optimalRot);
       }
+      
+      // Show brand detail view after a short delay
+      setTimeout(() => {
+        showBrandDetailView(brand);
+      }, 600);
     }
+
+    /* === BRAND DETAIL VIEW === */
+    const brandDetailName = document.getElementById('brand-detail-name');
+    const brandDetailTagline = document.getElementById('brand-detail-tagline');
+    const brandDescription = document.getElementById('brand-description');
+    const backToSelectionBtn = document.getElementById('back-to-selection');
+
+    // Placeholder brand data (can be expanded later)
+    const brandDetails = {
+      'Hollister': {
+        tagline: 'California lifestyle eyewear',
+        description: 'Hollister brings the laid-back California vibe to eyewear with frames that capture the essence of coastal living. Known for their youthful, relaxed aesthetic and quality craftsmanship.'
+      },
+      'Harley Davidson': {
+        tagline: 'Born to ride, designed to see',
+        description: 'Harley-Davidson eyewear embodies the rebellious spirit of the open road. Rugged, bold frames designed for those who live life on their own terms.'
+      },
+      'Timberland': {
+        tagline: 'Built for the outdoors',
+        description: 'Timberland eyewear combines durability with style, perfect for the modern adventurer. Eco-conscious designs that stand up to any environment.'
+      },
+      'Gant': {
+        tagline: 'American sportswear heritage',
+        description: 'Gant brings preppy sophistication to eyewear with classic silhouettes and refined details. Timeless frames for the discerning professional.'
+      },
+      'Adidas Originals': {
+        tagline: 'Original style, modern vision',
+        description: 'Adidas Originals eyewear celebrates streetwear culture with iconic designs. Bold frames that make a statement on and off the court.'
+      },
+      'Skechers': {
+        tagline: 'Comfort meets style',
+        description: 'Skechers eyewear delivers everyday comfort with contemporary style. Lightweight, versatile frames for the active lifestyle.'
+      },
+      'Adidas Sport': {
+        tagline: 'Performance-driven eyewear',
+        description: 'Engineered for athletes, Adidas Sport eyewear combines cutting-edge technology with aerodynamic design. Maximum performance, zero compromise.'
+      },
+      'Marcolin': {
+        tagline: 'Italian craftsmanship excellence',
+        description: 'Marcolin represents the pinnacle of Italian eyewear manufacturing. Decades of expertise in every frame, bringing luxury brands to life.'
+      }
+    };
+
+    function showBrandDetailView(brand) {
+      const details = brandDetails[brand.name] || {
+        tagline: 'Premium eyewear collection',
+        description: 'Discover our curated selection of high-quality frames designed for style and comfort.'
+      };
+
+      brandDetailName.textContent = brand.name;
+      brandDetailTagline.textContent = details.tagline;
+      brandDescription.textContent = details.description;
+
+      document.body.classList.add('brand-detail-view');
+    }
+
+    function hideBrandDetailView() {
+      document.body.classList.remove('brand-detail-view');
+      deactivateSpotlight();
+    }
+
+    backToSelectionBtn.addEventListener('click', hideBrandDetailView);
+    /* === END BRAND DETAIL VIEW === */
 
     function deleteBrand(index) {
       brandRegions.splice(index, 1);
