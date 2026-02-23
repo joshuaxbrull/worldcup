@@ -639,7 +639,7 @@
     /* === BRAND DETAIL VIEW === */
     body.brand-detail-view #canvas-container {
       position: fixed;
-      top: 0;
+      top: 1rem;
       left: 0;
       right: 0;
       height: 55vh;
@@ -808,6 +808,9 @@
       body.brand-detail-view #canvas-container {
         height: 45vh;
         transform: scale(0.45);
+        transform-origin: right top;
+        right: 1rem;
+        left: auto;
       }
 
       body.brand-detail-view #brand-detail {
@@ -828,6 +831,9 @@
       body.brand-detail-view #canvas-container {
         height: 40vh;
         transform: scale(0.4);
+        transform-origin: right top;
+        right: 0.5rem;
+        left: auto;
       }
 
       body.brand-detail-view #brand-detail {
@@ -1864,10 +1870,24 @@
     const canvasContainer = document.getElementById('canvas-container');
     
     const scrollDistance = 200;
-    const startScale = 0.55;
-    const endScale = 0.15;
-    const endTranslateX = -35;
-    const endTranslateY = -20;
+    
+    function getScrollAnimationParams() {
+      const isMobile = window.innerWidth <= 768;
+      if (isMobile) {
+        return {
+          startScale: window.innerWidth <= 480 ? 0.4 : 0.45,
+          endScale: 0.2,
+          endTranslateX: 0,
+          endTranslateY: 0
+        };
+      }
+      return {
+        startScale: 0.55,
+        endScale: 0.15,
+        endTranslateX: 0,
+        endTranslateY: 0
+      };
+    }
 
     // Placeholder brand data (can be expanded later)
     const brandDetails = {
@@ -1919,7 +1939,8 @@
       document.documentElement.classList.add('brand-detail-view');
       document.body.classList.add('brand-detail-view');
       document.body.classList.add('transitioning');
-      canvasContainer.style.transform = `scale(${startScale})`;
+      const params = getScrollAnimationParams();
+      canvasContainer.style.transform = `scale(${params.startScale})`;
       
       setTimeout(() => {
         document.body.classList.remove('transitioning');
@@ -1948,17 +1969,23 @@
         return;
       }
 
+      const params = getScrollAnimationParams();
       const scrollY = window.scrollY;
       const progress = Math.min(scrollY / scrollDistance, 1);
       
-      const scale = startScale + (endScale - startScale) * progress;
-      const translateX = endTranslateX * progress;
-      const translateY = endTranslateY * progress;
+      const scale = params.startScale + (params.endScale - params.startScale) * progress;
+      const translateX = params.endTranslateX * progress;
+      const translateY = params.endTranslateY * progress;
       
       canvasContainer.style.transform = `scale(${scale}) translate(${translateX}vw, ${translateY}vh)`;
     }
 
     window.addEventListener('scroll', updateBallOnScroll);
+    window.addEventListener('resize', () => {
+      if (document.body.classList.contains('brand-detail-view')) {
+        updateBallOnScroll();
+      }
+    });
     /* === END SCROLL-LINKED BALL ANIMATION === */
     /* === END BRAND DETAIL VIEW === */
 
