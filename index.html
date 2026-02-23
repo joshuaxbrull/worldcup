@@ -181,6 +181,22 @@
       padding-right: 1.25rem;
     }
 
+    .brand-side-btn.active {
+      color: #fff;
+      border-color: #e94560;
+      text-shadow: 0 0 10px rgba(233, 69, 96, 0.5);
+    }
+
+    .brand-side-menu.left .brand-side-btn.active {
+      padding-left: 1.5rem;
+      border-left-width: 3px;
+    }
+
+    .brand-side-menu.right .brand-side-btn.active {
+      padding-right: 1.5rem;
+      border-right-width: 3px;
+    }
+
     .brand-side-menu.left .brand-side-btn {
       text-align: left;
     }
@@ -489,6 +505,48 @@
     }
     /* === END REGION HIGHLIGHT INFO === */
 
+    /* === SPOTLIGHT BACKGROUND OVERLAY === */
+    #spotlight-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: radial-gradient(
+        ellipse at var(--spotlight-x, 50%) var(--spotlight-y, 50%),
+        transparent 0%,
+        rgba(0, 0, 0, 0.3) 30%,
+        rgba(0, 0, 0, 0.7) 100%
+      );
+      opacity: 0;
+      transition: opacity 0.6s ease;
+      pointer-events: none;
+      z-index: 5;
+    }
+
+    #spotlight-overlay.active {
+      opacity: 1;
+    }
+
+    body.brand-active::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.35);
+      pointer-events: none;
+      z-index: 1;
+      animation: dimIn 0.5s ease forwards;
+    }
+
+    @keyframes dimIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    /* === END SPOTLIGHT BACKGROUND OVERLAY === */
+
     /* === BRAND POPUP === */
     #brand-popup {
       position: absolute;
@@ -563,6 +621,10 @@
   </style>
 </head>
 <body>
+  <!-- === SPOTLIGHT OVERLAY === -->
+  <div id="spotlight-overlay"></div>
+  <!-- === END SPOTLIGHT OVERLAY === -->
+
   <header>
     <h1>World Cup</h1>
   </header>
@@ -726,9 +788,19 @@
         const maxDim = Math.max(size.x, size.y, size.z);
         const scale = 4 / maxDim;
         
+        // Apply custom spotlight shader material to all meshes
         model.traverse((child) => {
           if (child.isMesh) {
             child.geometry.computeBoundingBox();
+            
+            // Store original material and apply spotlight shader
+            originalMaterials.push({
+              mesh: child,
+              material: child.material
+            });
+            
+            const spotMaterial = createSpotlightMaterial(child.material);
+            child.material = spotMaterial;
           }
         });
         
@@ -764,6 +836,204 @@
     const pointLight2 = new THREE.PointLight(0x4ecdc4, 0.5);
     pointLight2.position.set(5, -3, 5);
     scene.add(pointLight2);
+
+    /* === SPOTLIGHT E₁ SHADER SYSTEM === */
+    const spotlightOverlay = document.getElementById('spotlight-overlay');
+    
+    // Spotlight state
+    let activeBrandIndex = -1;
+    let spotlightIntensity = 0;
+    let targetSpotlightIntensity = 0;
+    let spotlightUV = { u: 0.5, v: 0.5 };
+    let targetSpotlightUV = { u: 0.5, v: 0.5 };
+    
+    // Shader parameters from highlight_functions.md
+    const spotlightParams = {
+      k: 2.5,           // decay rate - tightness of spotlight
+      a0: 0.15,         // ellipse semi-axis X
+      b0: 0.15,         // ellipse semi-axis Y
+      ambientDim: 0.35, // how much to dim non-highlighted areas
+      maxBrightness: 2.0
+    };
+
+    // E₁ approximation (Padé-style from highlight_functions.md)
+    function e1Approx(x) {
+      if (x < 1e-4) return -Math.log(x) - 0.5772156649;
+      return Math.exp(-x) / x * (x + 1.0) / (x + 2.0 - 1.0 / (x + 4.0));
+    }
+
+    // Calculate highlight intensity at UV position using 4D slice integral
+    function calculateHighlight(uv, centerUV, params) {
+      const du = uv.u - centerUV.u;
+      const dv = uv.v - centerUV.v;
+      const r2 = (du * du) / (params.a0 * params.a0) + (dv * dv) / (params.b0 * params.b0);
+      const r2Safe = Math.max(r2, 1e-5);
+      const intensity = e1Approx(r2Safe) / (2.0 * params.k);
+      return Math.min(intensity, params.maxBrightness);
+    }
+
+    // Custom shader material for the ball with E₁ spotlight
+    const spotlightVertexShader = `
+      varying vec2 vUv;
+      varying vec3 vNormal;
+      varying vec3 vPosition;
+      
+      void main() {
+        vUv = uv;
+        vNormal = normalize(normalMatrix * normal);
+        vPosition = (modelViewMatrix * vec4(position, 1.0)).xyz;
+        gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+      }
+    `;
+
+    const spotlightFragmentShader = `
+      uniform sampler2D baseTexture;
+      uniform bool hasTexture;
+      uniform vec3 baseColor;
+      uniform vec2 spotlightCenter;
+      uniform float spotlightIntensity;
+      uniform float ambientDim;
+      uniform float k;
+      uniform float a0;
+      uniform float b0;
+      uniform float maxBrightness;
+      
+      varying vec2 vUv;
+      varying vec3 vNormal;
+      varying vec3 vPosition;
+      
+      // E₁ approximation (exponential integral)
+      float e1Approx(float x) {
+        if (x < 0.0001) return -log(x) - 0.5772156649;
+        return exp(-x) / x * (x + 1.0) / (x + 2.0 - 1.0 / (x + 4.0));
+      }
+      
+      void main() {
+        // Base color from texture or uniform
+        vec4 texColor = hasTexture ? texture2D(baseTexture, vUv) : vec4(baseColor, 1.0);
+        
+        // Calculate E₁ highlight intensity
+        vec2 d = vUv - spotlightCenter;
+        float r2 = (d.x * d.x) / (a0 * a0) + (d.y * d.y) / (b0 * b0);
+        r2 = max(r2, 0.00001);
+        float highlight = e1Approx(r2) / (2.0 * k);
+        highlight = min(highlight, maxBrightness);
+        
+        // Normalize highlight to 0-1 range for blending
+        float normalizedHighlight = highlight / maxBrightness;
+        
+        // Apply spotlight effect: brighten center, dim periphery
+        float dimFactor = mix(1.0, ambientDim, spotlightIntensity);
+        float brightFactor = mix(dimFactor, 1.0 + normalizedHighlight * 0.5, normalizedHighlight * spotlightIntensity);
+        
+        // Basic lighting
+        vec3 lightDir = normalize(vec3(5.0, 5.0, 5.0) - vPosition);
+        float diff = max(dot(vNormal, lightDir), 0.0);
+        float ambient = 0.4;
+        float lighting = ambient + diff * 0.6;
+        
+        // Final color with spotlight effect
+        vec3 finalColor = texColor.rgb * lighting * brightFactor;
+        
+        // Add warm glow at spotlight center
+        vec3 warmGlow = vec3(1.0, 0.9, 0.8) * normalizedHighlight * spotlightIntensity * 0.3;
+        finalColor += warmGlow;
+        
+        gl_FragColor = vec4(finalColor, texColor.a);
+      }
+    `;
+
+    // Create spotlight material
+    let spotlightMaterial = null;
+    let originalMaterials = [];
+
+    function createSpotlightMaterial(originalMaterial) {
+      const hasTexture = originalMaterial && originalMaterial.map !== null && originalMaterial.map !== undefined;
+      const baseColor = (originalMaterial && originalMaterial.color) 
+        ? originalMaterial.color.clone() 
+        : new THREE.Color(0xffffff);
+      
+      const uniforms = {
+        baseTexture: { value: hasTexture ? originalMaterial.map : null },
+        hasTexture: { value: hasTexture },
+        baseColor: { value: baseColor },
+        spotlightCenter: { value: new THREE.Vector2(0.5, 0.5) },
+        spotlightIntensity: { value: 0.0 },
+        ambientDim: { value: spotlightParams.ambientDim },
+        k: { value: spotlightParams.k },
+        a0: { value: spotlightParams.a0 },
+        b0: { value: spotlightParams.b0 },
+        maxBrightness: { value: spotlightParams.maxBrightness }
+      };
+
+      return new THREE.ShaderMaterial({
+        uniforms: uniforms,
+        vertexShader: spotlightVertexShader,
+        fragmentShader: spotlightFragmentShader,
+        transparent: true,
+        side: THREE.DoubleSide
+      });
+    }
+
+    // Apply spotlight effect to ball
+    function activateSpotlight(brandIndex) {
+      if (brandIndex < 0 || brandIndex >= brandRegions.length) {
+        deactivateSpotlight();
+        return;
+      }
+
+      activeBrandIndex = brandIndex;
+      const brand = brandRegions[brandIndex];
+      
+      targetSpotlightIntensity = 1.0;
+      targetSpotlightUV = { u: brand.uv.u, v: brand.uv.v };
+      
+      // Activate background overlay
+      spotlightOverlay.classList.add('active');
+      document.body.classList.add('brand-active');
+      
+      // Update overlay spotlight position (approximate screen position)
+      const screenX = brand.uv.u * 100;
+      const screenY = (1 - brand.uv.v) * 100;
+      spotlightOverlay.style.setProperty('--spotlight-x', screenX + '%');
+      spotlightOverlay.style.setProperty('--spotlight-y', screenY + '%');
+      
+      // Update side button active states
+      document.querySelectorAll('.brand-side-btn').forEach(btn => {
+        btn.classList.toggle('active', parseInt(btn.dataset.brand) === brandIndex);
+      });
+    }
+
+    function deactivateSpotlight() {
+      activeBrandIndex = -1;
+      targetSpotlightIntensity = 0;
+      
+      spotlightOverlay.classList.remove('active');
+      document.body.classList.remove('brand-active');
+      
+      document.querySelectorAll('.brand-side-btn').forEach(btn => {
+        btn.classList.remove('active');
+      });
+    }
+
+    // Update shader uniforms each frame
+    function updateSpotlightShader() {
+      // Smooth interpolation
+      const lerpSpeed = 0.08;
+      spotlightIntensity += (targetSpotlightIntensity - spotlightIntensity) * lerpSpeed;
+      spotlightUV.u += (targetSpotlightUV.u - spotlightUV.u) * lerpSpeed;
+      spotlightUV.v += (targetSpotlightUV.v - spotlightUV.v) * lerpSpeed;
+
+      if (!pivot) return;
+
+      pivot.traverse((child) => {
+        if (child.isMesh && child.material && child.material.uniforms) {
+          child.material.uniforms.spotlightCenter.value.set(spotlightUV.u, spotlightUV.v);
+          child.material.uniforms.spotlightIntensity.value = spotlightIntensity;
+        }
+      });
+    }
+    /* === END SPOTLIGHT E₁ SHADER SYSTEM === */
 
     function handleResize() {
       const width = canvas.clientWidth;
@@ -938,9 +1208,14 @@
           const brandHit = findBrandAtUV(intersection.uv);
           if (brandHit) {
             showBrandPopup(brandHit.brand, event.clientX, event.clientY);
+            activateSpotlight(brandHit.index);
             return;
           } else {
             hideBrandPopup();
+            // Clicking on non-brand area deactivates spotlight
+            if (activeBrandIndex >= 0) {
+              deactivateSpotlight();
+            }
           }
         }
         
@@ -1170,6 +1445,9 @@
       const brand = brandRegions[brandIndex];
       if (!brand || !pivot) return;
       
+      // Activate spotlight on this brand
+      activateSpotlight(brandIndex);
+      
       // Use stored rotation if available, otherwise try UV calculation
       if (brand.rotation) {
         console.log(`Rotating to ${brand.name}:`, brand.rotation);
@@ -1273,7 +1551,15 @@
         pivot.rotation.x += 0.003;
         pivot.rotation.y += 0.007;
         pivot.rotation.z += 0.002;
+        
+        // Gradually deactivate spotlight during auto-rotation
+        if (activeBrandIndex >= 0 && autoRotate) {
+          deactivateSpotlight();
+        }
       }
+
+      // Update spotlight shader uniforms
+      updateSpotlightShader();
 
       updateSliders();
       renderer.render(scene, camera);
