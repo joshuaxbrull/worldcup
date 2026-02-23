@@ -634,8 +634,12 @@
       right: 0;
       height: 55vh;
       transform: scale(0.55);
-      transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+      transform-origin: center top;
       z-index: 15;
+    }
+
+    body.brand-detail-view.transitioning #canvas-container {
+      transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
     body.brand-detail-view .brand-side-menu {
@@ -1738,6 +1742,13 @@
     const brandDetailTagline = document.getElementById('brand-detail-tagline');
     const brandDescription = document.getElementById('brand-description');
     const backToSelectionBtn = document.getElementById('back-to-selection');
+    const canvasContainer = document.getElementById('canvas-container');
+    
+    const scrollDistance = 200;
+    const startScale = 0.55;
+    const endScale = 0.15;
+    const endTranslateX = -35;
+    const endTranslateY = -20;
 
     // Placeholder brand data (can be expanded later)
     const brandDetails = {
@@ -1785,15 +1796,49 @@
       brandDetailTagline.textContent = details.tagline;
       brandDescription.textContent = details.description;
 
+      window.scrollTo(0, 0);
       document.body.classList.add('brand-detail-view');
+      document.body.classList.add('transitioning');
+      canvasContainer.style.transform = `scale(${startScale})`;
+      
+      setTimeout(() => {
+        document.body.classList.remove('transitioning');
+      }, 600);
     }
 
     function hideBrandDetailView() {
+      document.body.classList.add('transitioning');
       document.body.classList.remove('brand-detail-view');
+      canvasContainer.style.transform = '';
+      window.scrollTo(0, 0);
       deactivateSpotlight();
+      
+      setTimeout(() => {
+        document.body.classList.remove('transitioning');
+        handleResize();
+      }, 600);
     }
 
     backToSelectionBtn.addEventListener('click', hideBrandDetailView);
+
+    /* === SCROLL-LINKED BALL ANIMATION === */
+    function updateBallOnScroll() {
+      if (!document.body.classList.contains('brand-detail-view')) {
+        return;
+      }
+
+      const scrollY = window.scrollY;
+      const progress = Math.min(scrollY / scrollDistance, 1);
+      
+      const scale = startScale + (endScale - startScale) * progress;
+      const translateX = endTranslateX * progress;
+      const translateY = endTranslateY * progress;
+      
+      canvasContainer.style.transform = `scale(${scale}) translate(${translateX}vw, ${translateY}vh)`;
+    }
+
+    window.addEventListener('scroll', updateBallOnScroll);
+    /* === END SCROLL-LINKED BALL ANIMATION === */
     /* === END BRAND DETAIL VIEW === */
 
     function deleteBrand(index) {
