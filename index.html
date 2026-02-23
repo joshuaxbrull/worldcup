@@ -1402,6 +1402,7 @@
     const popupBrandName = document.getElementById('popup-brand-name');
     const popupActionBtn = document.getElementById('popup-action-btn');
     let currentPopupBrand = null;
+    let currentPopupBrandIndex = -1;
     
     function findBrandAtUV(uv) {
       if (!uv) return null;
@@ -1421,23 +1422,26 @@
       return null;
     }
     
-    function showBrandPopup(brand, screenX, screenY) {
+    function showBrandPopup(brand, brandIndex, screenX, screenY) {
       popupBrandName.textContent = brand.name;
       brandPopup.style.left = `${screenX}px`;
       brandPopup.style.top = `${screenY}px`;
       brandPopup.classList.add('visible');
       currentPopupBrand = brand;
+      currentPopupBrandIndex = brandIndex;
     }
     
     function hideBrandPopup() {
       brandPopup.classList.remove('visible');
       currentPopupBrand = null;
+      currentPopupBrandIndex = -1;
     }
     
     popupActionBtn.addEventListener('click', () => {
-      if (currentPopupBrand) {
+      const brandIndex = currentPopupBrandIndex;
+      if (brandIndex >= 0) {
         hideBrandPopup();
-        showBrandDetailView(currentPopupBrand);
+        animateToBrand(brandIndex);
       }
     });
     
@@ -1472,7 +1476,7 @@
         if (!mappingMode) {
           const brandHit = findBrandAtUV(intersection.uv);
           if (brandHit) {
-            showBrandPopup(brandHit.brand, event.clientX, event.clientY);
+            showBrandPopup(brandHit.brand, brandHit.index, event.clientX, event.clientY);
             activateSpotlight(brandHit.index);
             return;
           } else {
