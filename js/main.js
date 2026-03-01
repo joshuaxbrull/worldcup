@@ -616,6 +616,121 @@ function showBrandDetailView(brand) {
   brandDetailTagline.textContent = details.tagline;
   brandDescription.textContent = details.description;
 
+  // Populate pricing
+  const pricingEl = document.getElementById('brand-pricing');
+  const pricingSection = document.getElementById('pricing-section');
+  if (details.pricing) {
+    let pricingHTML = '';
+    const p = details.pricing;
+    if (p.opticalWholesale) {
+      pricingHTML += `<div class="pricing-item"><div class="pricing-label">Optical Wholesale</div><div class="pricing-value">${p.opticalWholesale}</div></div>`;
+    }
+    if (p.opticalRetail) {
+      pricingHTML += `<div class="pricing-item"><div class="pricing-label">Optical Retail</div><div class="pricing-value">${p.opticalRetail}</div></div>`;
+    }
+    if (p.sunWholesale) {
+      pricingHTML += `<div class="pricing-item"><div class="pricing-label">Sun Wholesale</div><div class="pricing-value">${p.sunWholesale}</div></div>`;
+    }
+    if (p.sunRetail) {
+      pricingHTML += `<div class="pricing-item"><div class="pricing-label">Sun Retail</div><div class="pricing-value">${p.sunRetail}</div></div>`;
+    }
+    if (p.adultWholesale) {
+      pricingHTML += `<div class="pricing-item"><div class="pricing-label">Adult Wholesale</div><div class="pricing-value">${p.adultWholesale}</div></div>`;
+    }
+    if (p.adultRetail) {
+      pricingHTML += `<div class="pricing-item"><div class="pricing-label">Adult Retail</div><div class="pricing-value">${p.adultRetail}</div></div>`;
+    }
+    if (p.kidsWholesale) {
+      pricingHTML += `<div class="pricing-item"><div class="pricing-label">Kids Wholesale</div><div class="pricing-value">${p.kidsWholesale}</div></div>`;
+    }
+    if (p.kidsRetail) {
+      pricingHTML += `<div class="pricing-item"><div class="pricing-label">Kids Retail</div><div class="pricing-value">${p.kidsRetail}</div></div>`;
+    }
+    if (p.opticalWholesaleWomen) {
+      pricingHTML += `<div class="pricing-item"><div class="pricing-label">Women's Optical Wholesale</div><div class="pricing-value">${p.opticalWholesaleWomen}</div></div>`;
+    }
+    if (p.opticalRetailWomen) {
+      pricingHTML += `<div class="pricing-item"><div class="pricing-label">Women's Optical Retail</div><div class="pricing-value">${p.opticalRetailWomen}</div></div>`;
+    }
+    if (p.opticalWholesaleMen) {
+      pricingHTML += `<div class="pricing-item"><div class="pricing-label">Men's Optical Wholesale</div><div class="pricing-value">${p.opticalWholesaleMen}</div></div>`;
+    }
+    if (p.opticalRetailMen) {
+      pricingHTML += `<div class="pricing-item"><div class="pricing-label">Men's Optical Retail</div><div class="pricing-value">${p.opticalRetailMen}</div></div>`;
+    }
+    pricingEl.innerHTML = pricingHTML;
+    pricingSection.style.display = pricingHTML ? 'block' : 'none';
+  } else {
+    pricingSection.style.display = 'none';
+  }
+
+  // Populate eyewear facts
+  const factsEl = document.getElementById('eyewear-facts');
+  const factsSection = document.getElementById('eyewear-facts-section');
+  if (details.eyewearFacts && details.eyewearFacts.length > 0) {
+    factsEl.innerHTML = details.eyewearFacts.map(fact => `<li>${fact}</li>`).join('');
+    factsSection.style.display = 'block';
+  } else {
+    factsSection.style.display = 'none';
+  }
+
+  // Populate mission
+  const missionEl = document.getElementById('brand-mission');
+  const missionSection = document.getElementById('mission-section');
+  if (details.mission) {
+    missionEl.textContent = details.mission;
+    missionSection.style.display = 'block';
+  } else {
+    missionSection.style.display = 'none';
+  }
+
+  // Populate highlights
+  const highlightsEl = document.getElementById('brand-highlights');
+  const highlightsSection = document.getElementById('highlights-section');
+  if (details.highlights && details.highlights.length > 0) {
+    highlightsEl.innerHTML = details.highlights.map(h => `<li>${h}</li>`).join('');
+    highlightsSection.style.display = 'block';
+  } else {
+    highlightsSection.style.display = 'none';
+  }
+
+  // Populate target consumer
+  const consumerEl = document.getElementById('target-consumer');
+  const consumerSection = document.getElementById('consumer-section');
+  if (details.targetConsumer) {
+    const tc = details.targetConsumer;
+    const initials = tc.name.split(' ').map(n => n[0]).join('').substring(0, 2);
+    let consumerHTML = `
+      <div class="consumer-header">
+        <div class="consumer-avatar">${initials}</div>
+        <div class="consumer-intro">
+          <h4>Meet ${tc.name}</h4>
+          <div class="consumer-demo">Age: ${tc.age} | ${tc.demographic}</div>
+        </div>
+      </div>
+      <p class="consumer-description">${tc.description}</p>
+    `;
+    if (tc.femaleDescription) {
+      consumerHTML += `<p class="consumer-description">${tc.femaleDescription}</p>`;
+    }
+    if (tc.kidsDescription) {
+      consumerHTML += `<p class="consumer-description">${tc.kidsDescription}</p>`;
+    }
+    if (tc.mindset) {
+      consumerHTML += `<div class="consumer-section-title">Mindset</div><p class="consumer-mindset">${tc.mindset}</p>`;
+    }
+    if (tc.interests) {
+      consumerHTML += `<div class="consumer-section-title">Interests</div><p class="consumer-interests">${tc.interests}</p>`;
+    }
+    if (tc.purchaseDrivers && tc.purchaseDrivers.length > 0) {
+      consumerHTML += `<div class="consumer-section-title">Purchase Drivers</div><div class="consumer-drivers">${tc.purchaseDrivers.map(d => `<span class="driver-tag">${d}</span>`).join('')}</div>`;
+    }
+    consumerEl.innerHTML = consumerHTML;
+    consumerSection.style.display = 'block';
+  } else {
+    consumerSection.style.display = 'none';
+  }
+
   window.scrollTo(0, 0);
   document.documentElement.classList.add('brand-detail-view');
   document.body.classList.add('brand-detail-view');

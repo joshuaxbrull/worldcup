@@ -850,3 +850,200 @@ body.brand-detail-view footer {
   position: relative;
   margin-top: 2rem;
 }
+
+/* === BRAND DETAIL CONTENT === */
+.pricing-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+}
+
+.pricing-item {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 0.75rem;
+  padding: 1rem 1.25rem;
+  text-align: center;
+}
+
+.pricing-item .pricing-label {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: rgba(255, 255, 255, 0.6);
+  margin-bottom: 0.5rem;
+}
+
+.pricing-item .pricing-value {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #4ecdc4;
+}
+
+.pricing-item .pricing-sublabel {
+  font-size: 0.7rem;
+  color: rgba(255, 255, 255, 0.4);
+  margin-top: 0.25rem;
+}
+
+.facts-list {
+  list-style: none;
+  padding: 0;
+  display: grid;
+  gap: 0.75rem;
+}
+
+.facts-list li {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  padding: 0.75rem 1rem;
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 0.5rem;
+  border-left: 3px solid #e94560;
+  color: rgba(255, 255, 255, 0.85);
+  line-height: 1.5;
+}
+
+.facts-list li::before {
+  content: '✓';
+  color: #4ecdc4;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+#brand-mission {
+  font-style: italic;
+  color: rgba(255, 255, 255, 0.85);
+  line-height: 1.8;
+  padding: 1.25rem;
+  background: rgba(233, 69, 96, 0.1);
+  border-radius: 0.75rem;
+  border-left: 4px solid #e94560;
+}
+
+.consumer-card {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 1rem;
+  padding: 1.5rem;
+}
+
+.consumer-header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1.25rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.consumer-avatar {
+  width: 60px;
+  height: 60px;
+  background: linear-gradient(135deg, #e94560, #ff6b6b);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #fff;
+  flex-shrink: 0;
+}
+
+.consumer-intro h4 {
+  font-size: 1.1rem;
+  margin-bottom: 0.25rem;
+  color: #fff;
+}
+
+.consumer-intro .consumer-demo {
+  font-size: 0.85rem;
+  color: #4ecdc4;
+}
+
+.consumer-description {
+  color: rgba(255, 255, 255, 0.8);
+  line-height: 1.7;
+  margin-bottom: 1.25rem;
+}
+
+.consumer-section-title {
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #e94560;
+  margin-bottom: 0.5rem;
+  margin-top: 1rem;
+}
+
+.consumer-mindset,
+.consumer-interests {
+  color: rgba(255, 255, 255, 0.75);
+  line-height: 1.6;
+  font-size: 0.9rem;
+}
+
+.consumer-drivers {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+.driver-tag {
+  background: rgba(78, 205, 196, 0.15);
+  border: 1px solid rgba(78, 205, 196, 0.3);
+  color: #4ecdc4;
+  padding: 0.35rem 0.75rem;
+  border-radius: 2rem;
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+
+@media (max-width: 768px) {
+  .pricing-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .consumer-card {
+    padding: 1.25rem;
+  }
+
+  .consumer-avatar {
+    width: 50px;
+    height: 50px;
+    font-size: 1.25rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .pricing-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 0.75rem;
+  }
+
+  .pricing-item {
+    padding: 0.75rem;
+  }
+
+  .pricing-item .pricing-value {
+    font-size: 1rem;
+  }
+
+  .facts-list li {
+    padding: 0.5rem 0.75rem;
+    font-size: 0.85rem;
+  }
+
+  .consumer-header {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .driver-tag {
+    font-size: 0.7rem;
+    padding: 0.25rem 0.5rem;
+  }
+}
