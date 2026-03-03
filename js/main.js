@@ -623,41 +623,41 @@ function showBrandDetailView(brand) {
     let pricingHTML = '';
     const p = details.pricing;
     if (p.opticalWholesale) {
-      pricingHTML += `<div class="pricing-item"><div class="pricing-label">Optical Wholesale</div><div class="pricing-value">${p.opticalWholesale}</div></div>`;
+      pricingHTML += `<div class="pricing-item"><div class="pricing-label">Optical MSRP</div><div class="pricing-value">${p.opticalWholesale}</div></div>`;
     }
-    if (p.opticalRetail) {
-      pricingHTML += `<div class="pricing-item"><div class="pricing-label">Optical Retail</div><div class="pricing-value">${p.opticalRetail}</div></div>`;
-    }
+    // if (p.opticalRetail) {
+    //   pricingHTML += `<div class="pricing-item"><div class="pricing-label">Optical Retail</div><div class="pricing-value">${p.opticalRetail}</div></div>`;
+    // }
     if (p.sunWholesale) {
-      pricingHTML += `<div class="pricing-item"><div class="pricing-label">Sun Wholesale</div><div class="pricing-value">${p.sunWholesale}</div></div>`;
+      pricingHTML += `<div class="pricing-item"><div class="pricing-label">Sun MSRP</div><div class="pricing-value">${p.sunWholesale}</div></div>`;
     }
-    if (p.sunRetail) {
-      pricingHTML += `<div class="pricing-item"><div class="pricing-label">Sun Retail</div><div class="pricing-value">${p.sunRetail}</div></div>`;
-    }
+    // if (p.sunRetail) {
+    //   pricingHTML += `<div class="pricing-item"><div class="pricing-label">Sun Retail</div><div class="pricing-value">${p.sunRetail}</div></div>`;
+    // }
     if (p.adultWholesale) {
-      pricingHTML += `<div class="pricing-item"><div class="pricing-label">Adult Wholesale</div><div class="pricing-value">${p.adultWholesale}</div></div>`;
+      pricingHTML += `<div class="pricing-item"><div class="pricing-label">Adult MSRP</div><div class="pricing-value">${p.adultWholesale}</div></div>`;
     }
-    if (p.adultRetail) {
-      pricingHTML += `<div class="pricing-item"><div class="pricing-label">Adult Retail</div><div class="pricing-value">${p.adultRetail}</div></div>`;
-    }
+    // if (p.adultRetail) {
+    //   pricingHTML += `<div class="pricing-item"><div class="pricing-label">Adult Retail</div><div class="pricing-value">${p.adultRetail}</div></div>`;
+    // }
     if (p.kidsWholesale) {
-      pricingHTML += `<div class="pricing-item"><div class="pricing-label">Kids Wholesale</div><div class="pricing-value">${p.kidsWholesale}</div></div>`;
+      pricingHTML += `<div class="pricing-item"><div class="pricing-label">Kids MSRP</div><div class="pricing-value">${p.kidsWholesale}</div></div>`;
     }
-    if (p.kidsRetail) {
-      pricingHTML += `<div class="pricing-item"><div class="pricing-label">Kids Retail</div><div class="pricing-value">${p.kidsRetail}</div></div>`;
-    }
+    // if (p.kidsRetail) {
+    //   pricingHTML += `<div class="pricing-item"><div class="pricing-label">Kids Retail</div><div class="pricing-value">${p.kidsRetail}</div></div>`;
+    // }
     if (p.opticalWholesaleWomen) {
-      pricingHTML += `<div class="pricing-item"><div class="pricing-label">Women's Optical Wholesale</div><div class="pricing-value">${p.opticalWholesaleWomen}</div></div>`;
+      pricingHTML += `<div class="pricing-item"><div class="pricing-label">Women's Optical MSRP</div><div class="pricing-value">${p.opticalWholesaleWomen}</div></div>`;
     }
-    if (p.opticalRetailWomen) {
-      pricingHTML += `<div class="pricing-item"><div class="pricing-label">Women's Optical Retail</div><div class="pricing-value">${p.opticalRetailWomen}</div></div>`;
-    }
+    // if (p.opticalRetailWomen) {
+    //   pricingHTML += `<div class="pricing-item"><div class="pricing-label">Women's Optical Retail</div><div class="pricing-value">${p.opticalRetailWomen}</div></div>`;
+    // }
     if (p.opticalWholesaleMen) {
-      pricingHTML += `<div class="pricing-item"><div class="pricing-label">Men's Optical Wholesale</div><div class="pricing-value">${p.opticalWholesaleMen}</div></div>`;
+      pricingHTML += `<div class="pricing-item"><div class="pricing-label">Men's Optical MSRP</div><div class="pricing-value">${p.opticalWholesaleMen}</div></div>`;
     }
-    if (p.opticalRetailMen) {
-      pricingHTML += `<div class="pricing-item"><div class="pricing-label">Men's Optical Retail</div><div class="pricing-value">${p.opticalRetailMen}</div></div>`;
-    }
+    // if (p.opticalRetailMen) {
+    //   pricingHTML += `<div class="pricing-item"><div class="pricing-label">Men's Optical Retail</div><div class="pricing-value">${p.opticalRetailMen}</div></div>`;
+    // }
     pricingEl.innerHTML = pricingHTML;
     pricingSection.style.display = pricingHTML ? 'block' : 'none';
   } else {
