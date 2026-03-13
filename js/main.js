@@ -877,6 +877,29 @@ sliderX.addEventListener('input', onSliderChange);
 sliderY.addEventListener('input', onSliderChange);
 sliderZ.addEventListener('input', onSliderChange);
 
+/* === HISTORY PANEL === */
+const historyBtn = document.getElementById('history-btn');
+const historyPanel = document.getElementById('history-panel');
+const historyClose = document.getElementById('history-close');
+
+historyBtn.addEventListener('click', () => {
+  historyPanel.classList.add('visible');
+  historyBtn.classList.add('active');
+});
+
+historyClose.addEventListener('click', () => {
+  historyPanel.classList.remove('visible');
+  historyBtn.classList.remove('active');
+});
+
+historyPanel.addEventListener('click', (e) => {
+  if (e.target === historyPanel) {
+    historyPanel.classList.remove('visible');
+    historyBtn.classList.remove('active');
+  }
+});
+/* === END HISTORY PANEL === */
+
 /* === ANIMATION LOOP === */
 function animate() {
   requestAnimationFrame(animate);

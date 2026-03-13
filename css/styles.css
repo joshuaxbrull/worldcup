@@ -1049,3 +1049,194 @@ body.brand-detail-view footer {
     padding: 0.35rem 0.7rem;
   }
 }
+
+/* === TOP TASKBAR === */
+#top-taskbar {
+  position: absolute;
+  top: 1rem;
+  right: 2rem;
+  z-index: 50;
+  display: flex;
+  gap: 0.75rem;
+}
+
+.taskbar-btn {
+  padding: 0.5rem 1.25rem;
+  background: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 2rem;
+  color: #fff;
+  font-size: 0.85rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.taskbar-btn:hover {
+  background: rgba(233, 69, 96, 0.3);
+  border-color: #e94560;
+}
+
+.taskbar-btn.active {
+  background: rgba(233, 69, 96, 0.4);
+  border-color: #e94560;
+}
+
+@media (max-width: 768px) {
+  #top-taskbar {
+    right: 1rem;
+  }
+
+  .taskbar-btn {
+    padding: 0.4rem 1rem;
+    font-size: 0.75rem;
+  }
+}
+
+@media (max-width: 480px) {
+  #top-taskbar {
+    top: 0.75rem;
+    right: 0.75rem;
+  }
+
+  .taskbar-btn {
+    padding: 0.35rem 0.85rem;
+    font-size: 0.7rem;
+  }
+}
+/* === END TOP TASKBAR === */
+
+/* === PANEL OVERLAY (History, etc.) === */
+.panel-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.85);
+  backdrop-filter: blur(10px);
+  z-index: 200;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s ease;
+}
+
+.panel-overlay.visible {
+  opacity: 1;
+  visibility: visible;
+}
+
+.panel-content {
+  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+  border: 1px solid rgba(233, 69, 96, 0.3);
+  border-radius: 1rem;
+  padding: 2rem;
+  max-width: 800px;
+  max-height: 85vh;
+  width: 90%;
+  overflow-y: auto;
+  position: relative;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+}
+
+.panel-close {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  width: 2.5rem;
+  height: 2.5rem;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  color: #fff;
+  font-size: 1.5rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+}
+
+.panel-close:hover {
+  background: rgba(233, 69, 96, 0.3);
+  border-color: #e94560;
+}
+
+.panel-content h2 {
+  font-size: clamp(1.5rem, 4vw, 2rem);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  background: linear-gradient(90deg, #e94560, #ff6b6b);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 1.5rem;
+  padding-right: 3rem;
+}
+
+.history-content {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.history-section h3 {
+  font-size: 1rem;
+  color: #4ecdc4;
+  margin-bottom: 0.5rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.history-section p {
+  color: rgba(255, 255, 255, 0.8);
+  line-height: 1.7;
+  font-size: 0.95rem;
+}
+
+@media (max-width: 768px) {
+  .panel-content {
+    padding: 1.5rem;
+    max-height: 90vh;
+  }
+
+  .panel-content h2 {
+    font-size: 1.25rem;
+    margin-bottom: 1rem;
+  }
+
+  .history-section p {
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .panel-content {
+    padding: 1.25rem;
+    border-radius: 0.75rem;
+  }
+
+  .panel-close {
+    width: 2rem;
+    height: 2rem;
+    font-size: 1.25rem;
+  }
+
+  .history-section h3 {
+    font-size: 0.9rem;
+  }
+
+  .history-section p {
+    font-size: 0.85rem;
+    line-height: 1.6;
+  }
+}
+/* === END PANEL OVERLAY === */
