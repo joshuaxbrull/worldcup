@@ -617,8 +617,11 @@ function showBrandDetailView(brand) {
   brandDescription.textContent = details.description;
 
   // Populate pricing
-  const pricingEl = document.getElementById('brand-pricing');
+  // Pricing section - currently hidden
   const pricingSection = document.getElementById('pricing-section');
+  pricingSection.style.display = 'none';
+  /*
+  const pricingEl = document.getElementById('brand-pricing');
   if (details.pricing) {
     let pricingHTML = '';
     const p = details.pricing;
@@ -663,6 +666,7 @@ function showBrandDetailView(brand) {
   } else {
     pricingSection.style.display = 'none';
   }
+  */
 
   // Populate eyewear facts
   const factsEl = document.getElementById('eyewear-facts');
