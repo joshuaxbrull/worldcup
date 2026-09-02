@@ -1,5 +1,3 @@
-const EXPECTED_COUNT = 64;
-
 const STATE_ABBR = {
   alabama: "AL", alaska: "AK", arizona: "AZ", arkansas: "AR", california: "CA",
   colorado: "CO", connecticut: "CT", delaware: "DE", "district of columbia": "DC",
@@ -25,6 +23,7 @@ const state = {
   nearestId: null,
   driveById: {},
   routeDest: null,
+  kindFilter: "ALL",
 };
 
 const listEl = document.getElementById("location-list");
@@ -34,6 +33,7 @@ const searchEl = document.getElementById("search");
 const searchForm = document.getElementById("search-form");
 const searchStatus = document.getElementById("search-status");
 const filtersEl = document.getElementById("filters");
+const kindFiltersEl = document.getElementById("kind-filters");
 const locateBar = document.getElementById("locate-bar");
 const locateBtn = document.getElementById("locate-btn");
 const locateMenu = document.getElementById("locate-menu");
@@ -881,9 +881,14 @@ function queryHasState(query) {
     /\b(MD|DE|VA|WV|NY|PA|NC|NJ|DC|Maryland|Delaware|Virginia|West Virginia)\b/i.test(query);
 }
 
+function locKind(loc) {
+  return loc.kind === "dealership" ? "dealership" : "eyewear";
+}
+
 function candidateLocations() {
   return state.locations.filter((loc) => {
     if (state.filter !== "ALL" && loc.state !== state.filter) return false;
+    if (state.kindFilter !== "ALL" && locKind(loc) !== state.kindFilter) return false;
     return loc.lat != null && loc.lng != null;
   });
 }
@@ -993,13 +998,11 @@ function updateGoNow(origin, dest) {
 function renderList() {
   const visible = sortByDrive(candidateLocations());
   const total = state.locations.length;
+  const dealers = state.locations.filter((loc) => locKind(loc) === "dealership").length;
+  const shops = total - dealers;
   countEl.textContent = visible.length === total
-    ? `${total} locations`
+    ? `${total} locations · ${shops} eyewear · ${dealers} dealers`
     : `${visible.length} of ${total} locations`;
-
-  if (total !== EXPECTED_COUNT) {
-    countEl.textContent += ` — expected ${EXPECTED_COUNT}`;
-  }
 
   if (visible[0] && (driveInfo(visible[0]) || state.origin)) {
     state.nearestId = visible[0].id;
@@ -1043,6 +1046,7 @@ function renderList() {
         ${hoursLine}
       </div>
       <div class="card-footer">
+        ${locKind(loc) === "dealership" ? '<span class="kind-tag">Dealer</span>' : ""}
         <span class="state-tag">${escapeHtml(loc.state.trim())}</span>
         ${driveLabel ? `<span class="drive-time">${escapeHtml(driveLabel)}</span>` : ""}
         ${loc.id === state.activeId ? selectedActions(loc.id) : ""}
@@ -1103,12 +1107,13 @@ function addMarkers() {
   const bounds = [];
   for (const loc of state.locations) {
     if (loc.lat == null || loc.lng == null) continue;
+    const dealer = locKind(loc) === "dealership";
     const marker = L.circleMarker([loc.lat, loc.lng], {
       renderer: canvasRenderer,
-      radius: 7,
-      color: "#111111",
+      radius: dealer ? 7 : 7,
+      color: dealer ? "#f15a22" : "#111111",
       weight: 2,
-      fillColor: "#f15a22",
+      fillColor: dealer ? "#111111" : "#f15a22",
       fillOpacity: 1,
     });
     marker.bindPopup(popupHtml(loc), popupPanOptions());
@@ -1520,6 +1525,18 @@ function requestUserLocation() {
   );
 }
 
+kindFiltersEl?.addEventListener("click", async (event) => {
+  const btn = event.target.closest("[data-kind]");
+  if (!btn) return;
+  state.kindFilter = btn.dataset.kind;
+  for (const item of kindFiltersEl.querySelectorAll(".filter-btn")) {
+    item.classList.toggle("is-active", item === btn);
+  }
+  renderList();
+  const closest = sortByDrive(candidateLocations())[0];
+  if (closest && state.origin) await drawRouteTo(closest, { fit: true });
+});
+
 filtersEl.addEventListener("click", async (event) => {
   const btn = event.target.closest("[data-state]");
   if (!btn) return;
@@ -1686,8 +1703,8 @@ const locations = await fetch("data/locations.json").then((res) => {
   return res.json();
 });
 
-if (!Array.isArray(locations) || locations.length !== EXPECTED_COUNT) {
-  console.error(`Location count mismatch: got ${locations?.length}, expected ${EXPECTED_COUNT}`);
+if (!Array.isArray(locations) || !locations.length) {
+  console.error("Location list failed to load");
 }
 
 state.locations = locations;
