@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Harley-Davidson Eyewear — Business Card</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Libre+Baskerville:ital@0;1&family=Oswald:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { background: #1a1a1a; }
+    body {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 28px;
+      padding: 32px;
+    }
+    .card {
+      width: 1050px;
+      height: 600px;
+      position: relative;
+      overflow: hidden;
+      color: #f4f1ea;
+      isolation: isolate;
+    }
+    .front {
+      background:
+        radial-gradient(1200px 500px at 50% 120%, rgba(241, 90, 34, 0.08), transparent 55%),
+        linear-gradient(180deg, #141414 0%, #0b0b0b 100%);
+    }
+    .front::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      opacity: 0.18;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+      pointer-events: none;
+    }
+    .pad {
+      position: relative;
+      z-index: 1;
+      height: 100%;
+      padding: 48px 56px 40px;
+      display: flex;
+      flex-direction: column;
+    }
+    .brand-row {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+    }
+    .marcolin {
+      color: #f15a22;
+      font-family: Oswald, sans-serif;
+      font-weight: 600;
+      letter-spacing: 0.38em;
+      font-size: 18px;
+    }
+    .rule {
+      flex: 1;
+      height: 2px;
+      background: #f15a22;
+    }
+    .title {
+      margin: auto 0;
+    }
+    .title h1 {
+      font-family: "Bebas Neue", Impact, sans-serif;
+      font-size: 118px;
+      line-height: 0.82;
+      letter-spacing: 0.04em;
+      font-weight: 400;
+    }
+    .title p {
+      margin-top: 18px;
+      font-family: "Libre Baskerville", Georgia, serif;
+      font-style: italic;
+      font-size: 28px;
+      color: #f4f1ea;
+    }
+    .foot {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      gap: 20px;
+    }
+    .states {
+      font-family: Oswald, sans-serif;
+      letter-spacing: 0.18em;
+      font-size: 15px;
+      color: #d8d2c6;
+    }
+    .licensed {
+      color: #f15a22;
+      font-family: Oswald, sans-serif;
+      letter-spacing: 0.16em;
+      font-size: 14px;
+      text-transform: uppercase;
+    }
+
+    .back {
+      background: #050505;
+    }
+    .hero {
+      position: absolute;
+      inset: 0;
+      background: #050505 url("./map-hero.png") center 42% / cover no-repeat;
+      filter: saturate(1.05) contrast(1.08);
+    }
+    .hero::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(180deg, rgba(0,0,0,0.12) 0%, rgba(0,0,0,0.08) 42%, rgba(5,5,5,0.94) 78%),
+        radial-gradient(ellipse at center, transparent 40%, rgba(0,0,0,0.45) 100%);
+    }
+    .back-copy {
+      position: absolute;
+      left: 48px;
+      right: 250px;
+      bottom: 36px;
+      z-index: 2;
+    }
+    .back-copy h2 {
+      font-family: "Bebas Neue", Impact, sans-serif;
+      font-size: 54px;
+      letter-spacing: 0.04em;
+      line-height: 0.92;
+    }
+    .back-copy h2 span { color: #f15a22; }
+    .meta {
+      margin-top: 8px;
+      color: #f15a22;
+      font-family: Oswald, sans-serif;
+      letter-spacing: 0.22em;
+      font-size: 16px;
+    }
+    .scan {
+      margin-top: 10px;
+      font-family: Oswald, sans-serif;
+      letter-spacing: 0.16em;
+      font-size: 14px;
+      color: #cfc8bb;
+      text-transform: uppercase;
+    }
+    .qr-plate {
+      position: absolute;
+      right: 36px;
+      bottom: 32px;
+      z-index: 2;
+      width: 168px;
+      height: 168px;
+      padding: 10px;
+      background: #f4f1ea;
+    }
+    .qr-plate img {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+  </style>
+</head>
+<body>
+  <section class="card front" id="front">
+    <div class="pad">
+      <div class="brand-row">
+        <p class="marcolin">MARCOLIN</p>
+        <div class="rule"></div>
+      </div>
+      <div class="title">
+        <h1>HARLEY-DAVIDSON<br>EYEWEAR</h1>
+        <p>Find a shop. Ride there.</p>
+      </div>
+      <div class="foot">
+        <p class="states">64 LOCATIONS · MARYLAND · DELAWARE · VIRGINIA · WEST VIRGINIA</p>
+        <p class="licensed">Licensed by Marcolin</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="card back" id="back">
+    <div class="hero"></div>
+    <div class="back-copy">
+      <h2>MIDDLETOWN <span>→</span> FREDERICK</h2>
+      <p class="meta">15 MIN · 10 MI</p>
+      <p class="scan">Scan to find a shop · Harley-Davidson Eyewear · Marcolin</p>
+    </div>
+    <div class="qr-plate">
+      <img src="./qr.png" alt="QR code to the store locator">
+    </div>
+  </section>
+</body>
+</html>

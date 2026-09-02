@@ -79,6 +79,31 @@ body {
   isolation: isolate;
 }
 
+.finder-open {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  z-index: 600;
+  background: var(--panel);
+  color: var(--ink);
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 0.55rem 0.95rem;
+  font: inherit;
+  font-size: 0.85rem;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: var(--shadow);
+}
+
+.app.finder-hidden .sidebar {
+  flex-basis: 0;
+  width: 0;
+  overflow: hidden;
+  border: 0;
+  padding: 0;
+}
+
 #map {
   height: 100%;
   width: 100%;
@@ -696,6 +721,35 @@ html.theme-light .card-hours.is-open {
 
   .sidebar.is-expanded {
     height: 85dvh;
+  }
+
+  .sidebar.is-minimized,
+  .app.finder-hidden .sidebar {
+    width: 100%;
+    flex-basis: auto;
+    height: 58px;
+    max-height: 58px;
+    overflow: hidden;
+    border-top: 1px solid var(--line);
+    padding: 0;
+  }
+
+  .sidebar.is-minimized .sidebar-header,
+  .sidebar.is-minimized .locate-bar,
+  .sidebar.is-minimized .search-form,
+  .sidebar.is-minimized .search-status,
+  .sidebar.is-minimized .filters,
+  .sidebar.is-minimized .location-list,
+  .sidebar.is-minimized .empty,
+  .sidebar.is-minimized .settings-panel {
+    display: none;
+  }
+
+  .finder-open {
+    top: auto;
+    bottom: 74px;
+    left: 50%;
+    transform: translateX(-50%);
   }
 
   .sheet-handle {

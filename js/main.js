@@ -42,6 +42,8 @@ const LOCATION_PREF_KEY = "hd-eyewear-location";
 const THEME_KEY = "hd-eyewear-theme";
 const sidebarEl = document.getElementById("sidebar");
 const sheetHandle = document.getElementById("sheet-handle");
+const finderOpen = document.getElementById("finder-open");
+const appEl = document.querySelector(".app");
 const daylightToggle = document.getElementById("daylight-toggle");
 const daylightToggleMobile = document.getElementById("daylight-toggle-mobile");
 const settingsBtn = document.getElementById("settings-btn");
@@ -98,6 +100,7 @@ let vectorLayer = null;
 let rasterLayers = [];
 let originMarker = null;
 let routeLayer = null;
+let ignoreMapClick = false;
 let planetTileTemplate = "";
 let prefetchTimer = 0;
 
@@ -562,6 +565,16 @@ function registerMapCache() {
 addMapBase();
 registerMapCache();
 
+map.on("click", (event) => {
+  const target = event.originalEvent?.target;
+  if (target?.closest?.(".leaflet-popup, .leaflet-control, .finder-open")) return;
+  if (ignoreMapClick) {
+    ignoreMapClick = false;
+    return;
+  }
+  hideFinder();
+});
+
 map.on("moveend", () => {
   clearTimeout(prefetchTimer);
   prefetchTimer = setTimeout(() => {
@@ -737,10 +750,32 @@ async function shareLocation(loc, button) {
   }
 }
 
+function setFinderHidden(hidden) {
+  appEl.classList.toggle("finder-hidden", hidden);
+  sidebarEl.classList.toggle("is-minimized", hidden && isMobile());
+  if (hidden) {
+    sidebarEl.classList.remove("is-expanded");
+    sidebarEl.style.height = "";
+  }
+  if (finderOpen) finderOpen.hidden = !hidden;
+  requestAnimationFrame(() => {
+    map.invalidateSize({ animate: false });
+    resizeVectorMap();
+    const bounds = currentRouteBounds();
+    if (bounds) fitInView(bounds, { animate: false });
+  });
+}
+
+function hideFinder() {
+  setFinderHidden(true);
+}
+
+function showFinder() {
+  setFinderHidden(false);
+}
+
 function collapseMobileSheet() {
-  if (!isMobile()) return;
-  sidebarEl.classList.remove("is-expanded");
-  sidebarEl.style.height = "";
+  hideFinder();
 }
 
 function selectedActions(id) {
@@ -1078,6 +1113,8 @@ function addMarkers() {
     });
     marker.bindPopup(popupHtml(loc), popupPanOptions());
     marker.on("click", async () => {
+      ignoreMapClick = true;
+      hideFinder();
       selectLocation(loc.id, { openPopup: false });
       if (state.origin) await drawRouteTo(loc, { fit: true });
       const popup = marker.getPopup();
@@ -1590,6 +1627,10 @@ sheetHandle.addEventListener("pointerdown", (event) => {
 sheetHandle.addEventListener("pointermove", (event) => {
   if (!sheetDrag) return;
   if (Math.abs(event.clientY - sheetDrag.y) > 6) sheetMoved = true;
+  if (appEl.classList.contains("finder-hidden") && event.clientY < sheetDrag.y - 8) {
+    showFinder();
+    sheetDrag.h = sidebarEl.getBoundingClientRect().height;
+  }
   const next = Math.min(
     window.innerHeight * 0.88,
     Math.max(window.innerHeight * 0.28, sheetDrag.h + (sheetDrag.y - event.clientY))
@@ -1610,9 +1651,20 @@ sheetHandle.addEventListener("pointerup", endSheetDrag);
 sheetHandle.addEventListener("pointercancel", endSheetDrag);
 sheetHandle.addEventListener("click", () => {
   if (!isMobile() || sheetMoved) return;
+  if (appEl.classList.contains("finder-hidden")) {
+    showFinder();
+    sidebarEl.classList.add("is-expanded");
+    return;
+  }
   sidebarEl.classList.toggle("is-expanded");
   sidebarEl.style.height = "";
   if (routeLayer) fitInView(routeLayer.getBounds());
+});
+
+finderOpen?.addEventListener("click", (event) => {
+  event.stopPropagation();
+  showFinder();
+  if (isMobile()) sidebarEl.classList.add("is-expanded");
 });
 
 const mapPaneEl = document.querySelector(".map-pane");
