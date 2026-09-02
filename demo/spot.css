@@ -1,0 +1,227 @@
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body {
+  height: 100%;
+  width: 100%;
+  background: #050505;
+  color: #f4f1ea;
+  font-family: Oswald, "Segoe UI", sans-serif;
+  overflow: hidden;
+}
+
+body {
+  position: relative;
+}
+
+.letterbox,
+.vignette,
+.grain,
+.slate,
+.super,
+.end {
+  pointer-events: none;
+}
+
+.letterbox {
+  position: fixed;
+  inset: 0;
+  z-index: 40;
+  box-shadow: inset 0 70px 0 #000, inset 0 -70px 0 #000;
+}
+
+body[data-cut="phone"] .letterbox {
+  box-shadow: none;
+}
+
+.vignette {
+  position: fixed;
+  inset: 0;
+  z-index: 35;
+  background: radial-gradient(ellipse at center, transparent 42%, rgba(0, 0, 0, 0.55) 100%);
+}
+
+.grain {
+  position: fixed;
+  inset: -20%;
+  z-index: 50;
+  opacity: 0.09;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 160 160' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.85'/%3E%3C/svg%3E");
+  animation: grain 0.45s steps(2) infinite;
+}
+
+@keyframes grain {
+  0% { transform: translate(0, 0); }
+  25% { transform: translate(-1.4%, 1%); }
+  50% { transform: translate(1.2%, -1.1%); }
+  75% { transform: translate(-0.8%, -0.6%); }
+  100% { transform: translate(0.6%, 1.3%); }
+}
+
+.stage {
+  position: fixed;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  opacity: 0;
+  transform: scale(1.08);
+  filter: saturate(0.92) contrast(1.08);
+  transition: opacity 0.9s ease, transform 8s ease-out;
+  z-index: 1;
+}
+
+body.is-live .stage {
+  opacity: 1;
+  transform: scale(1);
+}
+
+body[data-cut="app"] .stage {
+  top: 70px;
+  bottom: 70px;
+}
+
+.device {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: #111;
+}
+
+body[data-cut="phone"] .stage {
+  align-items: start;
+  padding-top: 6vh;
+}
+
+body[data-cut="phone"] .device {
+  width: min(70vw, 640px);
+  height: min(148vw, 1400px);
+  border-radius: 42px;
+  border: 10px solid #161616;
+  box-shadow:
+    0 0 0 1px #2a2a2a,
+    0 40px 90px rgba(0, 0, 0, 0.55),
+    inset 0 0 0 2px #0a0a0a;
+}
+
+.device iframe {
+  border: 0;
+  width: 100%;
+  height: 100%;
+  background: #111;
+}
+
+body[data-cut="phone"] .device iframe {
+  width: 390px;
+  height: 844px;
+  transform-origin: top left;
+}
+
+.slate,
+.end {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  display: grid;
+  place-items: center;
+  text-align: center;
+  background: #050505;
+  padding: 2rem;
+}
+
+.slate[hidden],
+.super[hidden],
+.end[hidden] {
+  display: none;
+}
+
+.slate {
+  background: #050505;
+}
+
+.slate::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 18%;
+  width: 72px;
+  height: 4px;
+  background: #f15a22;
+  transform: translateX(-50%);
+}
+
+.slate .kicker,
+.end-kicker {
+  color: #f15a22;
+  letter-spacing: 0.34em;
+  text-transform: uppercase;
+  font-size: clamp(0.7rem, 1.4vw, 0.95rem);
+  font-weight: 500;
+}
+
+.slate h1,
+.end h2 {
+  font-family: "Bebas Neue", Impact, sans-serif;
+  font-weight: 400;
+  letter-spacing: 0.02em;
+  line-height: 0.9;
+  font-size: clamp(3.4rem, 10vw, 7.5rem);
+  margin: 0.35em 0 0.2em;
+}
+
+.slate p,
+.end-legal {
+  color: #b8b2a6;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  font-size: clamp(0.68rem, 1.2vw, 0.86rem);
+}
+
+.super {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 11%;
+  z-index: 70;
+  text-align: center;
+  padding: 0 1.2rem;
+}
+
+body[data-cut="phone"] .super {
+  bottom: 5.5%;
+}
+
+body[data-cut="app"] .super {
+  bottom: 14%;
+}
+
+.super .line {
+  display: inline-block;
+  font-family: "Bebas Neue", Impact, sans-serif;
+  font-size: clamp(2.4rem, 7vw, 5.4rem);
+  letter-spacing: 0.04em;
+  line-height: 0.92;
+  text-shadow: 0 10px 28px rgba(0, 0, 0, 0.55);
+}
+
+.super .sub {
+  display: block;
+  margin-top: 0.45rem;
+  color: #f15a22;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  font-size: clamp(0.7rem, 1.3vw, 0.92rem);
+}
+
+.fade-in { animation: fadeIn 0.7s ease both; }
+.fade-out { animation: fadeOut 0.55s ease both; }
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes fadeOut {
+  from { opacity: 1; }
+  to { opacity: 0; }
+}
+
+body.is-black .stage { opacity: 0; }

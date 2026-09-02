@@ -1,5 +1,5 @@
-const SHELL = "hd-shell-v2";
-const TILES = "hd-tiles-v2";
+const SHELL = "hd-shell-v3";
+const TILES = "hd-tiles-v3";
 const TILE_LIMIT = 450;
 
 const SHELL_URLS = ["./", "./index.html", "./css/styles.css", "./js/main.js", "./data/locations.json"];
