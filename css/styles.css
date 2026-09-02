@@ -610,8 +610,75 @@ html.theme-light .card-hours.is-open {
   margin-top: 0.45rem;
 }
 
-.map-callout {
-  min-width: 9.75rem;
+.map-callout .callout-kicker {
+  color: #111;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  font-size: 0.62rem;
+  font-weight: 700;
+  margin-bottom: 0.2rem;
+}
+
+.map-callout .callout-name {
+  font-size: 0.95rem;
+  font-weight: 700;
+  line-height: 1.15;
+  margin-bottom: 0.35rem;
+}
+
+.leaflet-popup.dest-popup .leaflet-popup-content-wrapper,
+.leaflet-popup.dest-popup .leaflet-popup-tip {
+  background: #f15a22;
+  color: #111;
+  box-shadow: var(--shadow);
+}
+
+.leaflet-popup.dest-popup .callout-note,
+.leaflet-popup.dest-popup .callout-kicker {
+  color: rgba(17, 17, 17, 0.78);
+}
+
+.leaflet-popup.dest-popup .callout-note.is-open {
+  color: #10351f;
+}
+
+.leaflet-popup.dest-popup .popup-go {
+  background: #111;
+  color: #f4f1ea;
+}
+
+.leaflet-popup.dest-popup a.leaflet-popup-close-button {
+  color: #111;
+}
+
+.leaflet-div-icon.dest-pin-wrap,
+.dest-pin-wrap {
+  background: none !important;
+  border: 0 !important;
+}
+
+.dest-pin {
+  position: relative;
+  display: block;
+  width: 22px;
+  height: 22px;
+  margin: 4px auto 0;
+  background: #f15a22;
+  border: 2px solid #111;
+  border-radius: 50% 50% 50% 0;
+  transform: rotate(-45deg);
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.35);
+}
+
+.dest-pin::after {
+  content: "";
+  position: absolute;
+  width: 7px;
+  height: 7px;
+  top: 5px;
+  left: 5px;
+  border-radius: 50%;
+  background: #111;
 }
 
 .map-callout .callout-time {
@@ -638,9 +705,6 @@ html.theme-light .card-hours.is-open {
 
 .map-callout .popup-go {
   margin-top: 0.65rem;
-}
-
-.map-callout .popup-go {
   margin-left: 0;
   width: 100%;
   justify-content: center;
