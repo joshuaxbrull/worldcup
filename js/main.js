@@ -99,6 +99,7 @@ const ESRI_TILES = {
 let vectorLayer = null;
 let rasterLayers = [];
 let originMarker = null;
+let destPin = null;
 let routeLayer = null;
 let ignoreMapClick = false;
 let planetTileTemplate = "";
@@ -567,7 +568,7 @@ registerMapCache();
 
 map.on("click", (event) => {
   const target = event.originalEvent?.target;
-  if (target?.closest?.(".leaflet-popup, .leaflet-control, .finder-open")) return;
+  if (target?.closest?.(".leaflet-popup, .leaflet-control, .finder-open, .dest-pin-wrap")) return;
   if (ignoreMapClick) {
     ignoreMapClick = false;
     return;
@@ -914,7 +915,7 @@ function popupPanOptions() {
   const pad = 24;
   const sheet = isMobile() ? Math.round(sidebarEl.getBoundingClientRect().height) : 0;
   return {
-    className: "map-callout-wrap",
+    className: "map-callout-wrap dest-popup",
     closeButton: true,
     autoPan: true,
     keepInView: true,
@@ -962,7 +963,9 @@ function popupHtml(loc) {
     : `<p class="callout-note ${hours.open ? "is-open" : "is-closed"}">${escapeHtml(hours.label)}</p>`;
 
   return `
-    <div class="map-callout">
+    <div class="map-callout dest-callout">
+      <p class="callout-kicker">Destination</p>
+      <p class="callout-name">${escapeHtml(loc.name.trim())}</p>
       <p class="callout-time">${escapeHtml(time)}</p>
       <p class="callout-note">${escapeHtml(note)}</p>
       ${hoursLine}
@@ -972,9 +975,9 @@ function popupHtml(loc) {
 }
 
 function refreshPopups() {
-  for (const loc of state.locations) {
-    const marker = state.markers.get(loc.id);
-    if (marker) marker.setPopupContent(popupHtml(loc));
+  if (destPin && state.activeId) {
+    const loc = state.locations.find((item) => item.id === state.activeId);
+    if (loc) destPin.setPopupContent(popupHtml(loc));
   }
 }
 
@@ -1054,7 +1057,7 @@ function renderList() {
     `;
     card.addEventListener("click", (event) => {
       if (event.target.closest("[data-go-id], [data-share-id], .card-phone, .card-hours")) return;
-      selectLocation(loc.id, { fly: !state.origin, openPopup: false });
+      selectLocation(loc.id, { fly: !state.origin, openPopup: true });
       if (state.origin) drawRouteTo(loc, { fit: true });
     });
     li.appendChild(card);
@@ -1091,9 +1094,12 @@ function selectLocation(id, options = {}) {
   const card = listEl.querySelector(`.location-card[data-id="${id}"]`);
   if (card) card.scrollIntoView({ block: "nearest" });
 
+  const loc = state.locations.find((item) => item.id === id);
+  if (loc) setDestPin(loc, { openPopup });
+  syncActiveMarker();
+
   const marker = state.markers.get(id);
   if (marker) {
-    if (openPopup) marker.openPopup();
     if (fly) {
       map.setView(marker.getLatLng(), Math.max(map.getZoom(), 13), { animate: false });
     }
@@ -1116,16 +1122,11 @@ function addMarkers() {
       fillColor: dealer ? "#111111" : "#f15a22",
       fillOpacity: 1,
     });
-    marker.bindPopup(popupHtml(loc), popupPanOptions());
     marker.on("click", async () => {
       ignoreMapClick = true;
       hideFinder();
-      selectLocation(loc.id, { openPopup: false });
+      selectLocation(loc.id, { openPopup: true });
       if (state.origin) await drawRouteTo(loc, { fit: true });
-      const popup = marker.getPopup();
-      if (popup) Object.assign(popup.options, popupPanOptions());
-      marker.setPopupContent(popupHtml(loc));
-      marker.openPopup();
     });
     marker.addTo(map);
     state.markers.set(loc.id, marker);
@@ -1136,6 +1137,46 @@ function addMarkers() {
   } else {
     map.setView([38.0, -77.5], 6);
   }
+}
+
+function destPinIcon() {
+  return L.divIcon({
+    className: "dest-pin-wrap",
+    html: '<span class="dest-pin" aria-hidden="true"></span>',
+    iconSize: [28, 40],
+    iconAnchor: [14, 38],
+    popupAnchor: [0, -32],
+  });
+}
+
+function syncActiveMarker() {
+  for (const [id, marker] of state.markers) {
+    const hide = id === state.activeId;
+    marker.setStyle({
+      opacity: hide ? 0 : 1,
+      fillOpacity: hide ? 0 : 1,
+    });
+  }
+}
+
+function setDestPin(loc, { openPopup = true } = {}) {
+  if (!loc || loc.lat == null || loc.lng == null) return;
+  if (destPin) {
+    destPin.setLatLng([loc.lat, loc.lng]);
+    destPin.setPopupContent(popupHtml(loc));
+  } else {
+    destPin = L.marker([loc.lat, loc.lng], {
+      icon: destPinIcon(),
+      zIndexOffset: 800,
+      keyboard: false,
+    });
+    destPin.bindPopup(popupHtml(loc), popupPanOptions());
+    destPin.on("click", () => {
+      ignoreMapClick = true;
+    });
+    destPin.addTo(map);
+  }
+  if (openPopup) destPin.openPopup();
 }
 
 function setOriginMarker(origin) {
@@ -1326,7 +1367,11 @@ async function drawRouteTo(loc, { fit = false } = {}) {
     // keep list sort even if the line fails
   }
   updateGoNow(state.origin, loc);
-  selectLocation(loc.id, { openPopup: false });
+  if (state.activeId !== loc.id) {
+    selectLocation(loc.id, { openPopup: true });
+  } else {
+    setDestPin(loc, { openPopup: true });
+  }
   if (fit) {
     const fitted = routeLayer && routeLayer.getBounds().isValid()
       ? routeLayer.getBounds()

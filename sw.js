@@ -1,5 +1,5 @@
-const SHELL = "hd-eyewear-shell-v2";
-const TILES = "hd-eyewear-tiles-v2";
+const SHELL = "hd-eyewear-shell-v4";
+const TILES = "hd-eyewear-tiles-v4";
 const TILE_LIMIT = 450;
 
 const SHELL_URLS = ["./", "./index.html", "./css/styles.css", "./js/main.js", "./data/locations.json"];
