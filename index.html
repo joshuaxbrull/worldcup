@@ -49,7 +49,7 @@
           </button>
         </div>
         <h1>Find a location</h1>
-        <p class="count" id="count-label">64 locations</p>
+        <p class="count" id="count-label">Locations</p>
       </header>
 
       <div class="locate-bar" id="locate-bar">
@@ -71,6 +71,11 @@
       </form>
       <p class="search-status" id="search-status" hidden></p>
 
+      <div class="filters" id="kind-filters" role="group" aria-label="Filter by type">
+        <button type="button" class="filter-btn is-active" data-kind="ALL">All</button>
+        <button type="button" class="filter-btn" data-kind="eyewear">Eyewear</button>
+        <button type="button" class="filter-btn" data-kind="dealership">Dealers</button>
+      </div>
       <div class="filters" id="filters" role="group" aria-label="Filter by state">
         <button type="button" class="filter-btn is-active" data-state="ALL">All</button>
         <button type="button" class="filter-btn" data-state="MD">MD</button>

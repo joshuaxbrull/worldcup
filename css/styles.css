@@ -561,6 +561,17 @@ html.theme-light .card-hours.is-open {
   font-size: 0.8rem;
 }
 
+.location-card .kind-tag {
+  border: 1px solid var(--orange);
+  color: var(--orange);
+  border-radius: 999px;
+  padding: 0.12rem 0.45rem;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
 .location-card .state-tag {
   display: inline-block;
   margin: 0;

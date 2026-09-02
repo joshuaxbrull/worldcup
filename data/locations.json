@@ -9,7 +9,8 @@
     "lat": 39.470410141117,
     "lng": -76.305627560579,
     "geocode": "census-street",
-    "hours": "Mo 08:00-16:00; Tu 08:00-18:00; We-Th 08:00-17:00; Fr 08:00-16:00"
+    "hours": "Mo 08:00-16:00; Tu 08:00-18:00; We-Th 08:00-17:00; Fr 08:00-16:00",
+    "kind": "eyewear"
   },
   {
     "id": 2,
@@ -21,7 +22,8 @@
     "lat": 37.725579013354,
     "lng": -75.672630444716,
     "geocode": "census-street",
-    "hours": "Mo-Tu,Th-Fr 08:00-16:30"
+    "hours": "Mo-Tu,Th-Fr 08:00-16:30",
+    "kind": "eyewear"
   },
   {
     "id": 3,
@@ -33,7 +35,8 @@
     "lat": 38.985783549362,
     "lng": -76.550904588843,
     "geocode": "census-street",
-    "hours": "Tu-We 12:00-19:00; Th-Fr 09:00-16:00"
+    "hours": "Tu-We 12:00-19:00; Th-Fr 09:00-16:00",
+    "kind": "eyewear"
   },
   {
     "id": 4,
@@ -45,7 +48,8 @@
     "lat": 39.039090670283,
     "lng": -76.479226150585,
     "geocode": "census-street",
-    "hours": "Mo-Tu 10:00-19:00; We 09:00-17:00; Th 10:00-19:00; Fr 09:00-16:00"
+    "hours": "Mo-Tu 10:00-19:00; We 09:00-17:00; Th 10:00-19:00; Fr 09:00-16:00",
+    "kind": "eyewear"
   },
   {
     "id": 5,
@@ -57,7 +61,8 @@
     "lat": 37.758754401855,
     "lng": -77.477334654012,
     "geocode": "census-street",
-    "hours": "Mo-We 09:00-17:00; Th 10:00-19:00; Fr 09:00-17:00"
+    "hours": "Mo-We 09:00-17:00; Th 10:00-19:00; Fr 09:00-17:00",
+    "kind": "eyewear"
   },
   {
     "id": 6,
@@ -69,7 +74,8 @@
     "lat": 39.290553667599,
     "lng": -76.618061887391,
     "geocode": "census-street",
-    "hours": "Mo-Su off"
+    "hours": "Mo-Su off",
+    "kind": "eyewear"
   },
   {
     "id": 7,
@@ -81,7 +87,8 @@
     "lat": 39.292414116438,
     "lng": -76.613471443651,
     "geocode": "census-street",
-    "hours": "Mo-Fr 08:00-16:00"
+    "hours": "Mo-Fr 08:00-16:00",
+    "kind": "eyewear"
   },
   {
     "id": 8,
@@ -93,7 +100,8 @@
     "lat": 39.352616578813,
     "lng": -76.646344577293,
     "geocode": "census-street",
-    "hours": "Mo-Fr 08:00-17:00"
+    "hours": "Mo-Fr 08:00-17:00",
+    "kind": "eyewear"
   },
   {
     "id": 9,
@@ -105,7 +113,8 @@
     "lat": 39.377448923232,
     "lng": -76.62679349337,
     "geocode": "census-street",
-    "hours": "Mo-Fr 08:00-16:30"
+    "hours": "Mo-Fr 08:00-16:30",
+    "kind": "eyewear"
   },
   {
     "id": 10,
@@ -117,7 +126,8 @@
     "lat": 37.328510806536,
     "lng": -79.499604212356,
     "geocode": "census-street",
-    "hours": "Mo-Th 07:30-17:30"
+    "hours": "Mo-Th 07:30-17:30",
+    "kind": "eyewear"
   },
   {
     "id": 11,
@@ -129,7 +139,8 @@
     "lat": 39.027827549443,
     "lng": -76.917764250203,
     "geocode": "census-street",
-    "hours": "Tu-Fr 09:00-17:30; Sa 10:00-14:00"
+    "hours": "Tu-Fr 09:00-17:30; Sa 10:00-14:00",
+    "kind": "eyewear"
   },
   {
     "id": 12,
@@ -141,7 +152,8 @@
     "lat": 38.330604897746,
     "lng": -75.214632752296,
     "geocode": "census-street",
-    "hours": "Mo-Fr 08:30-16:00"
+    "hours": "Mo-Fr 08:30-16:00",
+    "kind": "eyewear"
   },
   {
     "id": 13,
@@ -153,7 +165,8 @@
     "lat": 37.253947634996,
     "lng": -81.204804377712,
     "geocode": "census-street",
-    "hours": "Mo-Fr 08:30-17:00"
+    "hours": "Mo-Fr 08:30-17:00",
+    "kind": "eyewear"
   },
   {
     "id": 14,
@@ -165,7 +178,8 @@
     "lat": 37.267034288032,
     "lng": -76.018838484209,
     "geocode": "census-street",
-    "hours": "Mo-Sa 10:00-17:00"
+    "hours": "Mo-Sa 10:00-17:00",
+    "kind": "eyewear"
   },
   {
     "id": 15,
@@ -177,7 +191,8 @@
     "lat": 36.793883604199,
     "lng": -79.393952283343,
     "geocode": "census-street",
-    "hours": "Mo-Th 08:00-12:00, 13:00-17:00"
+    "hours": "Mo-Th 08:00-12:00, 13:00-17:00",
+    "kind": "eyewear"
   },
   {
     "id": 16,
@@ -189,7 +204,8 @@
     "lat": 36.827261880285,
     "lng": -79.398271699081,
     "geocode": "census-street",
-    "hours": "Mo 08:30-17:00; Tu 08:00-17:30; We-Fr 08:30-17:00"
+    "hours": "Mo 08:30-17:00; Tu 08:00-17:30; We-Fr 08:30-17:00",
+    "kind": "eyewear"
   },
   {
     "id": 17,
@@ -201,7 +217,8 @@
     "lat": 36.71174227005,
     "lng": -76.235639926273,
     "geocode": "census-street",
-    "hours": "Mo-Fr 08:00-11:30, 13:00-16:30"
+    "hours": "Mo-Fr 08:00-11:30, 13:00-16:30",
+    "kind": "eyewear"
   },
   {
     "id": 18,
@@ -213,7 +230,8 @@
     "lat": 39.470886220974,
     "lng": -76.639273564047,
     "geocode": "census-street",
-    "hours": "Mo 09:00-17:00; Tu 09:00-19:00; We 09:00-17:00; Th 09:00-19:00; Fr 09:00-17:00; Sa 09:00-15:00"
+    "hours": "Mo 09:00-17:00; Tu 09:00-19:00; We 09:00-17:00; Th 09:00-19:00; Fr 09:00-17:00; Sa 09:00-15:00",
+    "kind": "eyewear"
   },
   {
     "id": 19,
@@ -225,7 +243,8 @@
     "lat": 38.457218305542,
     "lng": -78.015520643338,
     "geocode": "census-street",
-    "hours": "Mo 08:30-17:00; Tu 08:30-18:30; We-Fr 08:30-17:00"
+    "hours": "Mo 08:30-17:00; Tu 08:30-18:30; We-Fr 08:30-17:00",
+    "kind": "eyewear"
   },
   {
     "id": 20,
@@ -237,7 +256,8 @@
     "lat": 36.611699465376,
     "lng": -79.405670211408,
     "geocode": "census-street",
-    "hours": "Mo 08:30-17:00; Tu 08:30-17:30; We 08:30-17:00; Th 08:30-17:30; Fr 08:30-17:00"
+    "hours": "Mo 08:30-17:00; Tu 08:30-17:30; We 08:30-17:00; Th 08:30-17:30; Fr 08:30-17:00",
+    "kind": "eyewear"
   },
   {
     "id": 21,
@@ -249,7 +269,8 @@
     "lat": 39.170058973376,
     "lng": -75.543279293873,
     "geocode": "census-street",
-    "hours": "Mo-We 08:00-17:00; Th 10:00-19:00; Fr 08:00-16:00; Sa 08:00-14:00"
+    "hours": "Mo-We 08:00-17:00; Th 10:00-19:00; Fr 08:00-16:00; Sa 08:00-14:00",
+    "kind": "eyewear"
   },
   {
     "id": 22,
@@ -261,7 +282,8 @@
     "lat": 39.135013685168,
     "lng": -75.521395955346,
     "geocode": "census-street",
-    "hours": "Mo-We 08:00-17:00; Th 08:00-16:30; Fr 08:00-15:00"
+    "hours": "Mo-We 08:00-17:00; Th 08:00-16:30; Fr 08:00-15:00",
+    "kind": "eyewear"
   },
   {
     "id": 23,
@@ -273,7 +295,8 @@
     "lat": 38.841904247053,
     "lng": -77.278498527028,
     "geocode": "census-street",
-    "hours": "Mo-Fr 10:00-17:30; Sa 10:00-14:00"
+    "hours": "Mo-Fr 10:00-17:30; Sa 10:00-14:00",
+    "kind": "eyewear"
   },
   {
     "id": 24,
@@ -285,7 +308,8 @@
     "lat": 36.671662354691,
     "lng": -76.94668975049,
     "geocode": "census-street",
-    "hours": "Mo-Fr 08:00-17:00"
+    "hours": "Mo-Fr 08:00-17:00",
+    "kind": "eyewear"
   },
   {
     "id": 25,
@@ -297,7 +321,8 @@
     "lat": 39.407941842199,
     "lng": -77.389259521631,
     "geocode": "census-street",
-    "hours": "Mo-Tu 09:00-18:00; We 09:00-13:00; Th-Fr 09:00-18:00; Sa 09:00-13:00"
+    "hours": "Mo-Tu 09:00-18:00; We 09:00-13:00; Th-Fr 09:00-18:00; Sa 09:00-13:00",
+    "kind": "eyewear"
   },
   {
     "id": 26,
@@ -309,7 +334,8 @@
     "lat": 38.933191565175,
     "lng": -78.19895096749,
     "geocode": "census-street",
-    "hours": "Mo-Fr 09:00-17:30; Sa 10:00-13:00"
+    "hours": "Mo-Fr 09:00-17:30; Sa 10:00-13:00",
+    "kind": "eyewear"
   },
   {
     "id": 27,
@@ -321,7 +347,8 @@
     "lat": 36.674500345027,
     "lng": -80.90763950892,
     "geocode": "census-street",
-    "hours": "Mo-Fr 08:00-17:30"
+    "hours": "Mo-Fr 08:00-17:30",
+    "kind": "eyewear"
   },
   {
     "id": 28,
@@ -333,7 +360,8 @@
     "lat": 38.998186118951,
     "lng": -76.913299997403,
     "geocode": "census-street",
-    "hours": "Tu-Sa 08:30-17:00"
+    "hours": "Tu-Sa 08:30-17:00",
+    "kind": "eyewear"
   },
   {
     "id": 29,
@@ -345,7 +373,8 @@
     "lat": 39.664406714771,
     "lng": -77.699721252827,
     "geocode": "census-street",
-    "hours": "Mo 09:00-18:00; Tu 09:00-17:00; We-Th 09:00-18:00; Fr 09:00-17:00; Sa 09:00-14:00"
+    "hours": "Mo 09:00-18:00; Tu 09:00-17:00; We-Th 09:00-18:00; Fr 09:00-17:00; Sa 09:00-14:00",
+    "kind": "eyewear"
   },
   {
     "id": 30,
@@ -357,7 +386,8 @@
     "lat": 37.04941549305,
     "lng": -76.391685138161,
     "geocode": "census-street",
-    "hours": "Mo 09:00-17:00; Tu-Fr 09:00-18:00; Sa 09:00-16:00"
+    "hours": "Mo 09:00-17:00; Tu-Fr 09:00-18:00; Sa 09:00-16:00",
+    "kind": "eyewear"
   },
   {
     "id": 31,
@@ -369,7 +399,8 @@
     "lat": 37.120284769941,
     "lng": -79.712796047158,
     "geocode": "census-street",
-    "hours": "Mo-Fr 09:00-12:00, 13:00-17:00"
+    "hours": "Mo-Fr 09:00-12:00, 13:00-17:00",
+    "kind": "eyewear"
   },
   {
     "id": 32,
@@ -381,7 +412,8 @@
     "lat": 37.302314542108,
     "lng": -76.512316536862,
     "geocode": "census-street",
-    "hours": "Mo 08:00-17:00; Tu 08:00-19:00; We-Th 08:00-17:00; Fr 08:00-14:00"
+    "hours": "Mo 08:00-17:00; Tu 08:00-19:00; We-Th 08:00-17:00; Fr 08:00-14:00",
+    "kind": "eyewear"
   },
   {
     "id": 33,
@@ -393,7 +425,8 @@
     "lat": 36.75630591761,
     "lng": -80.741971926577,
     "geocode": "census-street",
-    "hours": "Mo-Fr 08:00-17:00"
+    "hours": "Mo-Fr 08:00-17:00",
+    "kind": "eyewear"
   },
   {
     "id": 34,
@@ -405,7 +438,8 @@
     "lat": 37.304470557693,
     "lng": -77.285838894341,
     "geocode": "census-street",
-    "hours": "Mo-Fr 09:00-17:00"
+    "hours": "Mo-Fr 09:00-17:00",
+    "kind": "eyewear"
   },
   {
     "id": 35,
@@ -417,7 +451,8 @@
     "lat": 37.71592853029,
     "lng": -76.381420137748,
     "geocode": "census-street",
-    "hours": "Mo-Tu 10:00-17:30; Th-Fr 10:00-17:30"
+    "hours": "Mo-Tu 10:00-17:30; Th-Fr 10:00-17:30",
+    "kind": "eyewear"
   },
   {
     "id": 36,
@@ -429,7 +464,8 @@
     "lat": 39.637773975605,
     "lng": -78.833450923758,
     "geocode": "census-street",
-    "hours": "Mo 09:00-16:00; Tu 09:00-18:00; We-Th 09:00-17:00; Fr 09:00-16:00; Sa 09:00-11:30"
+    "hours": "Mo 09:00-16:00; Tu 09:00-18:00; We-Th 09:00-17:00; Fr 09:00-16:00; Sa 09:00-11:30",
+    "kind": "eyewear"
   },
   {
     "id": 37,
@@ -441,7 +477,8 @@
     "lat": 36.905766169999,
     "lng": -82.052294222375,
     "geocode": "census-street",
-    "hours": "Mo-Fr 09:00-17:00"
+    "hours": "Mo-Fr 09:00-17:00",
+    "kind": "eyewear"
   },
   {
     "id": 38,
@@ -453,7 +490,8 @@
     "lat": 39.415989003271,
     "lng": -76.613783705088,
     "geocode": "census-street",
-    "hours": "Mo 08:00-17:00; Tu-Th 08:00-18:30; Fr 08:00-16:00; Sa 09:00-13:30"
+    "hours": "Mo 08:00-17:00; Tu-Th 08:00-18:30; Fr 08:00-16:00; Sa 09:00-13:30",
+    "kind": "eyewear"
   },
   {
     "id": 39,
@@ -465,7 +503,8 @@
     "lat": 37.369842474904,
     "lng": -79.186127687846,
     "geocode": "census-street",
-    "hours": "Mo-Fr 09:00-17:30; Sa 09:00-12:00"
+    "hours": "Mo-Fr 09:00-17:30; Sa 09:00-12:00",
+    "kind": "eyewear"
   },
   {
     "id": 40,
@@ -477,7 +516,8 @@
     "lat": 39.438879593312,
     "lng": -77.991087427765,
     "geocode": "census-street",
-    "hours": "Mo 09:00-18:00; Tu 09:00-17:00; We-Th 09:00-18:00; Fr 09:00-17:00; Sa 09:00-14:00"
+    "hours": "Mo 09:00-18:00; Tu 09:00-17:00; We-Th 09:00-18:00; Fr 09:00-17:00; Sa 09:00-14:00",
+    "kind": "eyewear"
   },
   {
     "id": 41,
@@ -489,7 +529,8 @@
     "lat": 36.706620565255,
     "lng": -79.909223404614,
     "geocode": "census-street",
-    "hours": "Mo 08:30-17:30; Tu 08:30-18:00; We-Fr 08:30-17:30"
+    "hours": "Mo 08:30-17:30; Tu 08:30-18:00; We-Fr 08:30-17:30",
+    "kind": "eyewear"
   },
   {
     "id": 42,
@@ -501,7 +542,8 @@
     "lat": 39.367464100413,
     "lng": -77.164730907679,
     "geocode": "census-street",
-    "hours": "Mo 10:00-18:00; Tu 09:00-17:00; Th 10:00-18:00; Fr 09:00-17:00; Sa 09:00-14:00"
+    "hours": "Mo 10:00-18:00; Tu 09:00-17:00; Th 10:00-18:00; Fr 09:00-17:00; Sa 09:00-14:00",
+    "kind": "eyewear"
   },
   {
     "id": 43,
@@ -513,7 +555,8 @@
     "lat": 39.39605836354,
     "lng": -76.483365592919,
     "geocode": "census-street",
-    "hours": "Mo-Fr 09:00-17:00; Sa 09:00-12:00"
+    "hours": "Mo-Fr 09:00-17:00; Sa 09:00-12:00",
+    "kind": "eyewear"
   },
   {
     "id": 44,
@@ -525,7 +568,8 @@
     "lat": 38.339572414364,
     "lng": -75.080574960676,
     "geocode": "census-street",
-    "hours": "Su 09:00-22:00; Mo-Th 10:00-22:00; Fr-Sa 09:00-22:00"
+    "hours": "Su 09:00-22:00; Mo-Th 10:00-22:00; Fr-Sa 09:00-22:00",
+    "kind": "eyewear"
   },
   {
     "id": 45,
@@ -537,7 +581,8 @@
     "lat": 39.129347417358,
     "lng": -76.592905425507,
     "geocode": "census-street",
-    "hours": "Mo 09:00-18:00; Tu 11:00-18:00; We 09:00-18:00; Th 10:00-18:00; Fr 09:00-16:00"
+    "hours": "Mo 09:00-18:00; Tu 11:00-18:00; We 09:00-18:00; Th 10:00-18:00; Fr 09:00-16:00",
+    "kind": "eyewear"
   },
   {
     "id": 46,
@@ -549,7 +594,8 @@
     "lat": 37.182639034974,
     "lng": -77.363522330049,
     "geocode": "census-street",
-    "hours": "Mo-Fr 09:00-17:00"
+    "hours": "Mo-Fr 09:00-17:00",
+    "kind": "eyewear"
   },
   {
     "id": 47,
@@ -561,7 +607,8 @@
     "lat": 38.992822815939,
     "lng": -79.123131036984,
     "geocode": "census-street",
-    "hours": "Mo-Fr 09:00-17:00"
+    "hours": "Mo-Fr 09:00-17:00",
+    "kind": "eyewear"
   },
   {
     "id": 48,
@@ -573,7 +620,8 @@
     "lat": 37.184383088458,
     "lng": -77.367367430312,
     "geocode": "census-street",
-    "hours": "Mo-Tu 09:00-17:30; We 09:00-14:00; Th-Fr 09:00-17:30"
+    "hours": "Mo-Tu 09:00-17:30; We 09:00-14:00; Th-Fr 09:00-17:30",
+    "kind": "eyewear"
   },
   {
     "id": 49,
@@ -585,7 +633,8 @@
     "lat": 38.063208630497,
     "lng": -75.551298279438,
     "geocode": "census-street",
-    "hours": "Mo-Fr 08:30-17:00"
+    "hours": "Mo-Fr 08:30-17:00",
+    "kind": "eyewear"
   },
   {
     "id": 50,
@@ -597,7 +646,8 @@
     "lat": 37.362095367327,
     "lng": -81.078530334798,
     "geocode": "census-street",
-    "hours": "Mo-Fr 09:00-17:00"
+    "hours": "Mo-Fr 09:00-17:00",
+    "kind": "eyewear"
   },
   {
     "id": 51,
@@ -609,7 +659,8 @@
     "lat": 39.30577068517,
     "lng": -77.863823954593,
     "geocode": "census-street",
-    "hours": "Mo-Tu 09:00-19:00; We 09:00-16:00; Th-Fr 09:00-17:00"
+    "hours": "Mo-Tu 09:00-19:00; We 09:00-16:00; Th-Fr 09:00-17:00",
+    "kind": "eyewear"
   },
   {
     "id": 52,
@@ -621,7 +672,8 @@
     "lat": 37.308136376999,
     "lng": -79.969263035641,
     "geocode": "census-street",
-    "hours": "Mo 08:30-18:30; Tu-Fr 08:30-17:30; Sa 08:00-13:00"
+    "hours": "Mo 08:30-18:30; Tu-Fr 08:30-17:30; Sa 08:00-13:00",
+    "kind": "eyewear"
   },
   {
     "id": 53,
@@ -633,7 +685,8 @@
     "lat": 37.315007202892,
     "lng": -79.959758028139,
     "geocode": "census-street",
-    "hours": "Mo-Sa 09:00-18:00"
+    "hours": "Mo-Sa 09:00-18:00",
+    "kind": "eyewear"
   },
   {
     "id": 54,
@@ -645,7 +698,8 @@
     "lat": 37.247652046821,
     "lng": -80.033530796171,
     "geocode": "census-street",
-    "hours": "Mo-Fr 08:30-17:30; Sa 08:30-12:00"
+    "hours": "Mo-Fr 08:30-17:30; Sa 08:30-12:00",
+    "kind": "eyewear"
   },
   {
     "id": 55,
@@ -657,7 +711,8 @@
     "lat": 37.357312410417,
     "lng": -79.884320997835,
     "geocode": "census-street",
-    "hours": "Mo-Fr 08:00-17:00; Sa 08:00-12:00"
+    "hours": "Mo-Fr 08:00-17:00; Sa 08:00-12:00",
+    "kind": "eyewear"
   },
   {
     "id": 56,
@@ -669,7 +724,8 @@
     "lat": 36.994393091232,
     "lng": -79.889379469364,
     "geocode": "census-street",
-    "hours": "Mo-Fr 08:00-17:00"
+    "hours": "Mo-Fr 08:00-17:00",
+    "kind": "eyewear"
   },
   {
     "id": 57,
@@ -681,7 +737,8 @@
     "lat": 36.993696092122,
     "lng": -79.889539523889,
     "geocode": "census-street",
-    "hours": "Mo 09:00-17:30; Tu-Fr 08:30-17:00"
+    "hours": "Mo 09:00-17:30; Tu-Fr 08:30-17:00",
+    "kind": "eyewear"
   },
   {
     "id": 58,
@@ -693,7 +750,8 @@
     "lat": 39.299807851683,
     "lng": -75.604730945136,
     "geocode": "census-street",
-    "hours": "Mo-We 08:00-17:00; Th 08:00-16:30; Fr 08:00-15:00"
+    "hours": "Mo-We 08:00-17:00; Th 08:00-16:30; Fr 08:00-15:00",
+    "kind": "eyewear"
   },
   {
     "id": 59,
@@ -705,7 +763,8 @@
     "lat": 36.639923,
     "lng": -80.2533155,
     "geocode": "nominatim-full",
-    "hours": "Mo-Tu 08:30-11:45, 12:45-17:00; We 08:30-12:00; Th 08:30-11:45, 12:45-17:00; Fr 08:30-11:45, 12:45-16:30"
+    "hours": "Mo-Tu 08:30-11:45, 12:45-17:00; We 08:30-12:00; Th 08:30-11:45, 12:45-17:00; Fr 08:30-11:45, 12:45-16:30",
+    "kind": "eyewear"
   },
   {
     "id": 60,
@@ -717,7 +776,8 @@
     "lat": 36.862149061332,
     "lng": -76.467371475471,
     "geocode": "census-street",
-    "hours": "Mo-Fr 09:00-17:30; Sa 08:00-14:00"
+    "hours": "Mo-Fr 09:00-17:30; Sa 08:00-14:00",
+    "kind": "eyewear"
   },
   {
     "id": 61,
@@ -729,7 +789,8 @@
     "lat": 38.6129271,
     "lng": -76.9274,
     "geocode": "nominatim-full",
-    "hours": "Mo 09:00-17:00; Tu 09:00-18:00; We 09:00-17:00; Th 09:00-18:00; Fr 09:00-17:00; Sa 09:00-15:00"
+    "hours": "Mo 09:00-17:00; Tu 09:00-18:00; We 09:00-17:00; Th 09:00-18:00; Fr 09:00-17:00; Sa 09:00-15:00",
+    "kind": "eyewear"
   },
   {
     "id": 62,
@@ -741,7 +802,8 @@
     "lat": 39.605119027015,
     "lng": -77.000402372524,
     "geocode": "census-street",
-    "hours": "Mo-Fr 09:00-17:00"
+    "hours": "Mo-Fr 09:00-17:00",
+    "kind": "eyewear"
   },
   {
     "id": 63,
@@ -753,7 +815,8 @@
     "lat": 39.184864600092,
     "lng": -78.168895726836,
     "geocode": "census-street",
-    "hours": "Mo-Fr 09:00-17:00"
+    "hours": "Mo-Fr 09:00-17:00",
+    "kind": "eyewear"
   },
   {
     "id": 64,
@@ -765,6 +828,449 @@
     "lat": 36.953403805573,
     "lng": -81.095301018499,
     "geocode": "census-street",
-    "hours": "Mo-Fr 08:00-13:00, 14:00-17:00"
+    "hours": "Mo-Fr 08:00-13:00, 14:00-17:00",
+    "kind": "eyewear"
+  },
+  {
+    "name": "All American Harley-Davidson",
+    "address": "8126 Old Leonardtown Rd",
+    "city": "Hughesville",
+    "state": "MD",
+    "phone": "3012745000",
+    "lat": 38.539742835676,
+    "lng": -76.787795453176,
+    "geocode": "census",
+    "kind": "dealership",
+    "hours": "",
+    "id": 65
+  },
+  {
+    "name": "District Harley-Davidson",
+    "address": "7830 Airpark Rd",
+    "city": "Gaithersburg",
+    "state": "MD",
+    "phone": "3019484581",
+    "lat": 39.170423235005,
+    "lng": -77.159635927855,
+    "geocode": "census",
+    "kind": "dealership",
+    "hours": "",
+    "id": 66
+  },
+  {
+    "name": "Eisenhauer's Chesapeake Harley-Davidson",
+    "address": "4600 Thunder Ct",
+    "city": "Darlington",
+    "state": "MD",
+    "phone": "4108932493",
+    "lat": 39.649187937574,
+    "lng": -76.203479459727,
+    "geocode": "census",
+    "kind": "dealership",
+    "hours": "",
+    "id": 67
+  },
+  {
+    "name": "Harley-Davidson of Baltimore",
+    "address": "8845 Pulaski Hwy",
+    "city": "Rosedale",
+    "state": "MD",
+    "phone": "4102382003",
+    "lat": 39.340476435652,
+    "lng": -76.471388403145,
+    "geocode": "census",
+    "kind": "dealership",
+    "hours": "",
+    "id": 68
+  },
+  {
+    "name": "Harley-Davidson of Frederick",
+    "address": "5722 Urbana Pike",
+    "city": "Frederick",
+    "state": "MD",
+    "phone": "3016948177",
+    "lat": 39.39041924775,
+    "lng": -77.405029665994,
+    "geocode": "census",
+    "kind": "dealership",
+    "hours": "",
+    "id": 69
+  },
+  {
+    "name": "Harley-Davidson of Washington, DC",
+    "address": "9407 Livingston Rd",
+    "city": "Fort Washington",
+    "state": "MD",
+    "phone": "3012481200",
+    "lat": 38.760485758747,
+    "lng": -76.995300478964,
+    "geocode": "census",
+    "kind": "dealership",
+    "hours": "",
+    "id": 70
+  },
+  {
+    "name": "Highland Harley-Davidson",
+    "address": "1285 National Hwy",
+    "city": "Cumberland",
+    "state": "MD",
+    "phone": "2403620200",
+    "lat": 39.636790254645,
+    "lng": -78.84360642523,
+    "geocode": "census",
+    "kind": "dealership",
+    "hours": "",
+    "id": 71
+  },
+  {
+    "name": "Old Glory Harley-Davidson",
+    "address": "11800 Laurel Bowie Rd",
+    "city": "Laurel",
+    "state": "MD",
+    "phone": "3015750575",
+    "lat": 39.051883570143,
+    "lng": -76.836219895481,
+    "geocode": "census",
+    "kind": "dealership",
+    "hours": "",
+    "id": 72
+  },
+  {
+    "name": "Rommel Harley-Davidson Delmarva",
+    "address": "2410 N Salisbury Blvd",
+    "city": "Salisbury",
+    "state": "MD",
+    "phone": "4102633345",
+    "lat": 38.403200461906,
+    "lng": -75.569330032548,
+    "geocode": "census",
+    "kind": "dealership",
+    "hours": "",
+    "id": 73
+  },
+  {
+    "name": "Rommel Harley-Davidson",
+    "address": "450 Stadium St",
+    "city": "Smyrna",
+    "state": "DE",
+    "phone": "3026588800",
+    "lat": 39.276562983968,
+    "lng": -75.58791504354,
+    "geocode": "census",
+    "kind": "dealership",
+    "hours": "",
+    "id": 74
+  },
+  {
+    "name": "Ironclad Harley-Davidson",
+    "address": "2211 Frederick Blvd",
+    "city": "Portsmouth",
+    "state": "VA",
+    "phone": "7573975550",
+    "lat": 36.818774218298,
+    "lng": -76.327396982173,
+    "geocode": "census",
+    "kind": "dealership",
+    "hours": "",
+    "id": 75
+  },
+  {
+    "name": "Black Bear Harley-Davidson",
+    "address": "430 Lithia Rd",
+    "city": "Wytheville",
+    "state": "VA",
+    "phone": "2762289000",
+    "lat": 36.95135049877,
+    "lng": -81.054942022958,
+    "geocode": "census",
+    "kind": "dealership",
+    "hours": "",
+    "id": 76
+  },
+  {
+    "name": "Black Wolf Harley-Davidson",
+    "address": "1061 Old Abingdon Hwy",
+    "city": "Bristol",
+    "state": "VA",
+    "phone": "2766449653",
+    "lat": 36.625064167261,
+    "lng": -82.155701487633,
+    "geocode": "census",
+    "kind": "dealership",
+    "hours": "",
+    "id": 77
+  },
+  {
+    "name": "Bull Run Harley-Davidson",
+    "address": "9321 Center St",
+    "city": "Manassas",
+    "state": "VA",
+    "phone": "7036313750",
+    "lat": 38.7508298,
+    "lng": -77.4820161,
+    "geocode": "nominatim",
+    "kind": "dealership",
+    "hours": "",
+    "id": 78
+  },
+  {
+    "name": "Colonial Harley-Davidson",
+    "address": "1701 Temple Pkwy",
+    "city": "Prince George",
+    "state": "VA",
+    "phone": "8048614700",
+    "lat": 37.250641611137,
+    "lng": -77.37183488983,
+    "geocode": "census",
+    "kind": "dealership",
+    "hours": "",
+    "id": 79
+  },
+  {
+    "name": "Hampton Roads Harley-Davidson",
+    "address": "6450 George Washington Hwy",
+    "city": "Yorktown",
+    "state": "VA",
+    "phone": "7578727223",
+    "lat": 37.171178371273,
+    "lng": -76.473238180306,
+    "geocode": "census",
+    "kind": "dealership",
+    "hours": "",
+    "id": 80
+  },
+  {
+    "name": "Harley-Davidson of Lynchburg",
+    "address": "20452 Timberlake Rd",
+    "city": "Lynchburg",
+    "state": "VA",
+    "phone": "4342372381",
+    "lat": 37.341601363321,
+    "lng": -79.236317470946,
+    "geocode": "census",
+    "kind": "dealership",
+    "hours": "",
+    "id": 81
+  },
+  {
+    "name": "Harley-Davidson of Quantico",
+    "address": "17975 Main St",
+    "city": "Dumfries",
+    "state": "VA",
+    "phone": "7032213757",
+    "lat": 38.562264457602,
+    "lng": -77.330656728525,
+    "geocode": "census",
+    "kind": "dealership",
+    "hours": "",
+    "id": 82
+  },
+  {
+    "name": "Old Dominion Harley-Davidson",
+    "address": "10611 Patriot Hwy",
+    "city": "Fredericksburg",
+    "state": "VA",
+    "phone": "5403767833",
+    "lat": 38.2506143,
+    "lng": -77.4976579,
+    "geocode": "nominatim",
+    "kind": "dealership",
+    "hours": "",
+    "id": 83
+  },
+  {
+    "name": "Patriot Harley-Davidson",
+    "address": "9739 Fairfax Blvd",
+    "city": "Fairfax",
+    "state": "VA",
+    "phone": "7033525400",
+    "lat": 38.863841134928,
+    "lng": -77.280904499319,
+    "geocode": "census",
+    "kind": "dealership",
+    "hours": "",
+    "id": 84
+  },
+  {
+    "name": "Richmond Harley-Davidson",
+    "address": "12200 Harley Club Dr",
+    "city": "Ashland",
+    "state": "VA",
+    "phone": "8047522800",
+    "lat": 37.728612228537,
+    "lng": -77.4529728267,
+    "geocode": "census",
+    "kind": "dealership",
+    "hours": "",
+    "id": 85
+  },
+  {
+    "name": "Roanoke Valley Harley-Davidson",
+    "address": "1925 Peters Creek Rd NW",
+    "city": "Roanoke",
+    "state": "VA",
+    "phone": "5405625424",
+    "lat": 37.308979528989,
+    "lng": -80.006627596025,
+    "geocode": "census",
+    "kind": "dealership",
+    "hours": "",
+    "id": 86
+  },
+  {
+    "name": "Skyline Harley-Davidson",
+    "address": "140 Independence Dr",
+    "city": "Winchester",
+    "state": "VA",
+    "phone": "5406624468",
+    "lat": 39.140353646045,
+    "lng": -78.124922233073,
+    "geocode": "census",
+    "kind": "dealership",
+    "hours": "",
+    "id": 87
+  },
+  {
+    "name": "Southside Harley-Davidson",
+    "address": "385 N Witchduck Rd",
+    "city": "Virginia Beach",
+    "state": "VA",
+    "phone": "7574998964",
+    "lat": 36.848583351336,
+    "lng": -76.155505462526,
+    "geocode": "census",
+    "kind": "dealership",
+    "hours": "",
+    "id": 88
+  },
+  {
+    "name": "Stonewall Harley-Davidson",
+    "address": "51 Buck Dr",
+    "city": "Ruckersville",
+    "state": "VA",
+    "phone": "5406725550",
+    "lat": 38.213777965013,
+    "lng": -78.383371617564,
+    "geocode": "census",
+    "kind": "dealership",
+    "hours": "",
+    "id": 89
+  },
+  {
+    "name": "Thunder Road Harley-Davidson",
+    "address": "4870 Riverside Dr",
+    "city": "Danville",
+    "state": "VA",
+    "phone": "4348222453",
+    "lat": 36.590086251947,
+    "lng": -79.456620612365,
+    "geocode": "census",
+    "kind": "dealership",
+    "hours": "",
+    "id": 90
+  },
+  {
+    "name": "Steel Horse Harley-Davidson",
+    "address": "11501 Hull Street Rd",
+    "city": "Midlothian",
+    "state": "VA",
+    "phone": "8046391737",
+    "lat": 37.434345852243,
+    "lng": -77.60840206326,
+    "geocode": "census",
+    "kind": "dealership",
+    "hours": "",
+    "id": 91
+  },
+  {
+    "name": "Black Sheep Harley-Davidson",
+    "address": "408 4th St",
+    "city": "Huntington",
+    "state": "WV",
+    "phone": "3045231340",
+    "lat": 38.418693893671,
+    "lng": -82.452180565935,
+    "geocode": "census",
+    "kind": "dealership",
+    "hours": "",
+    "id": 92
+  },
+  {
+    "name": "Cole Harley-Davidson",
+    "address": "1804 Bland St",
+    "city": "Bluefield",
+    "state": "WV",
+    "phone": "3043248116",
+    "lat": 37.258275372592,
+    "lng": -81.218925661056,
+    "geocode": "census",
+    "kind": "dealership",
+    "hours": "",
+    "id": 93
+  },
+  {
+    "name": "Harley-Davidson of West Virginia",
+    "address": "4924 Maccorkle Ave SW",
+    "city": "South Charleston",
+    "state": "WV",
+    "phone": "3047681600",
+    "lat": 38.3672299,
+    "lng": -81.6846361,
+    "geocode": "nominatim",
+    "kind": "dealership",
+    "hours": "",
+    "id": 94
+  },
+  {
+    "name": "Mountain State Harley-Davidson",
+    "address": "61 Preece Bottom Rd",
+    "city": "Delbarton",
+    "state": "WV",
+    "phone": "3044750123",
+    "lat": 37.77902185768,
+    "lng": -82.170621817436,
+    "geocode": "census",
+    "kind": "dealership",
+    "hours": "",
+    "id": 95
+  },
+  {
+    "name": "RG's Almost Heaven Harley-Davidson",
+    "address": "2260 Murphys Run Rd",
+    "city": "Bridgeport",
+    "state": "WV",
+    "phone": "3046230484",
+    "lat": 39.305801570282,
+    "lng": -80.281687266576,
+    "geocode": "census",
+    "kind": "dealership",
+    "hours": "",
+    "id": 96
+  },
+  {
+    "name": "Triple S Harley-Davidson",
+    "address": "7300 Willie G Ave",
+    "city": "Morgantown",
+    "state": "WV",
+    "phone": "3042848244",
+    "lat": 39.655615922408,
+    "lng": -80.013028335053,
+    "geocode": "census",
+    "kind": "dealership",
+    "hours": "",
+    "id": 97
+  },
+  {
+    "name": "Valley Harley-Davidson",
+    "address": "127 Fort Henry Rd",
+    "city": "Triadelphia",
+    "state": "WV",
+    "phone": "3042439300",
+    "lat": 40.06405,
+    "lng": -80.59203,
+    "geocode": "photon-place",
+    "kind": "dealership",
+    "hours": "",
+    "id": 98
   }
 ]
