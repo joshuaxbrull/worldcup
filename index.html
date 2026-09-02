@@ -2,174 +2,90 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>World Cup</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Harley-Davidson Eyewear Locations</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/maplibre-gl@5/dist/maplibre-gl.css">
   <link rel="stylesheet" href="css/styles.css">
+  <script>
+    (function () {
+      var saved = null;
+      try { saved = localStorage.getItem("hd-eyewear-theme"); } catch (e) {}
+      var theme = saved === "light" || saved === "dark"
+        ? saved
+        : (window.matchMedia("(max-width: 800px)").matches ? "light" : "dark");
+      document.documentElement.classList.add("theme-" + theme);
+    })();
+  </script>
 </head>
 <body>
-  <div id="spotlight-overlay"></div>
+  <div class="app">
+    <main class="map-pane">
+      <div id="map" role="application" aria-label="Store location map"></div>
+    </main>
+    <aside class="sidebar" id="sidebar">
+      <div class="sheet-handle" id="sheet-handle" aria-hidden="true"></div>
+      <header class="sidebar-header">
+        <div class="header-top">
+          <p class="eyebrow">Harley-Davidson Eyewear</p>
+          <div class="header-tools">
+            <button type="button" class="daylight-toggle" id="daylight-toggle" aria-pressed="false">
+              <span class="switch" aria-hidden="true"><span class="knob"></span></span>
+              Daylight
+            </button>
+            <button type="button" class="settings-btn" id="settings-btn" aria-expanded="false" aria-controls="settings-panel" aria-label="Settings">
+              <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true">
+                <path fill="currentColor" d="M19.14 12.94a7.6 7.6 0 0 0 .05-.94 7.6 7.6 0 0 0-.05-.94l2.03-1.58a.5.5 0 0 0 .12-.64l-1.92-3.32a.5.5 0 0 0-.6-.22l-2.39.96a7.2 7.2 0 0 0-1.63-.94l-.36-2.54A.5.5 0 0 0 13.9 2h-3.8a.5.5 0 0 0-.49.42l-.36 2.54c-.58.23-1.13.54-1.63.94l-2.39-.96a.5.5 0 0 0-.6.22L2.71 8.48a.5.5 0 0 0 .12.64L4.86 10.7a7.6 7.6 0 0 0-.05.94 7.6 7.6 0 0 0 .05.94l-2.03 1.58a.5.5 0 0 0-.12.64l1.92 3.32a.5.5 0 0 0 .6.22l2.39-.96c.5.4 1.05.71 1.63.94l.36 2.54a.5.5 0 0 0 .49.42h3.8a.5.5 0 0 0 .49-.42l.36-2.54c.58-.23 1.13-.54 1.63-.94l2.39.96a.5.5 0 0 0 .6-.22l1.92-3.32a.5.5 0 0 0-.12-.64zM12 15.5A3.5 3.5 0 1 1 12 8.5a3.5 3.5 0 0 1 0 7z"/>
+              </svg>
+            </button>
+          </div>
+        </div>
+        <div class="settings-panel" id="settings-panel" hidden>
+          <p class="settings-title">Settings</p>
+          <button type="button" class="daylight-toggle in-settings" id="daylight-toggle-mobile" aria-pressed="false">
+            <span class="switch" aria-hidden="true"><span class="knob"></span></span>
+            Daylight map
+          </button>
+        </div>
+        <h1>Find a location</h1>
+        <p class="count" id="count-label">64 locations</p>
+      </header>
 
-  <header>
-    <h1>World Cup</h1>
-  </header>
-
-  <nav id="top-taskbar">
-    <button class="taskbar-btn" id="history-btn">History</button>
-  </nav>
-
-  <div id="history-panel" class="panel-overlay">
-    <div class="panel-content">
-      <button class="panel-close" id="history-close">&times;</button>
-      <h2>Adidas & The World Cup</h2>
-      <div class="history-content">
-        <section class="history-section">
-          <h3>A Legacy Since 1954</h3>
-          <p>Adidas and the FIFA World Cup share a partnership that spans over seven decades. The relationship began in 1954 when the German national team, wearing Adidas boots with revolutionary screw-in studs, won the World Cup in Switzerland—an event known as the "Miracle of Bern."</p>
-        </section>
-        <section class="history-section">
-          <h3>The Official Match Ball</h3>
-          <p>Since 1970, Adidas has been the official supplier of match balls for every FIFA World Cup. The Telstar, introduced in Mexico 1970, became iconic with its black and white panels designed for visibility on television. Each tournament since has featured innovative ball designs—from the Tango (1978) to the Brazuca (2014) and Al Rihla (2022).</p>
-        </section>
-        <section class="history-section">
-          <h3>Iconic Moments</h3>
-          <p>Countless World Cup legends have worn the three stripes: Franz Beckenbauer, Michel Platini, Zinedine Zidane, and Lionel Messi. The brand has been present for historic moments—from Maradona's "Hand of God" to Zidane's headbutt, and Messi's crowning glory in Qatar 2022.</p>
-        </section>
-        <section class="history-section">
-          <h3>Innovation & Technology</h3>
-          <p>Adidas continues to push boundaries in football technology. From Predator boots that revolutionized ball control to the latest connected ball technology that assists VAR decisions, Adidas remains at the forefront of football innovation on the world's biggest stage.</p>
-        </section>
-        <section class="history-section">
-          <h3>2026 & Beyond</h3>
-          <p>As the World Cup expands to 48 teams and heads to North America in 2026, Adidas continues its commitment to the beautiful game—outfitting national teams, providing match balls, and creating the eyewear collections that let fans see every moment clearly.</p>
-        </section>
+      <div class="locate-bar" id="locate-bar">
+        <p class="locate-status" id="locate-status">Allow to find a store near you.</p>
+        <div class="locate-place">
+          <button type="button" class="locate-btn" id="locate-btn" aria-haspopup="menu" aria-expanded="false" aria-controls="locate-menu">Use my location</button>
+          <div class="locate-menu" id="locate-menu" role="menu" hidden>
+            <button type="button" role="menuitem" data-locate-action="refresh">Update location</button>
+            <button type="button" role="menuitem" data-locate-action="stop">Stop sharing</button>
+          </div>
+        </div>
       </div>
-    </div>
-  </div>
 
-  <div id="canvas-container">
-    <canvas id="three-canvas"></canvas>
-  </div>
+      <form class="search-form" id="search-form">
+        <label class="search-wrap">
+          <span class="sr-only">Your address or city</span>
+          <input type="search" id="search" placeholder="Address or city" autocomplete="street-address" enterkeyhint="search">
+        </label>
+      </form>
+      <p class="search-status" id="search-status" hidden></p>
 
-  <div id="brand-popup">
-    <div class="brand-name" id="popup-brand-name">Brand</div>
-    <button class="brand-action-btn" id="popup-action-btn">View Brand</button>
-  </div>
-
-  <div id="highlight-info">
-    <div class="info-row">
-      <span class="label">3D:</span>
-      <span class="value" id="info-3d">x: 0, y: 0, z: 0</span>
-    </div>
-    <div class="info-row">
-      <span class="label">UV:</span>
-      <span class="value" id="info-uv">u: 0, v: 0</span>
-    </div>
-    <div class="info-row">
-      <span class="label">Normal:</span>
-      <span class="value" id="info-normal">x: 0, y: 0, z: 0</span>
-    </div>
-    <div class="info-row" style="margin-top: 0.5rem;">
-      <span class="label">Size:</span>
-      <input type="range" id="region-size-slider" min="0.02" max="0.5" step="0.01" value="0.1">
-      <span class="value" id="region-size-value">0.10</span>
-    </div>
-    <div id="uv-preview">
-      <span id="uv-preview-label">UV Map</span>
-      <div id="uv-grid"></div>
-      <div id="uv-marker"></div>
-      <span id="uv-axes">U → / V ↑</span>
-    </div>
-    <button id="save-region-btn">Save This Region</button>
-  </div>
-
-  <div class="brand-side-menu left">
-    <button class="brand-side-btn" data-brand="0">Hollister</button>
-    <button class="brand-side-btn" data-brand="1">Harley Davidson</button>
-    <button class="brand-side-btn" data-brand="2">Timberland</button>
-    <button class="brand-side-btn" data-brand="3">Gant</button>
-  </div>
-  <div class="brand-side-menu right">
-    <button class="brand-side-btn" data-brand="4">Adidas Originals</button>
-    <button class="brand-side-btn" data-brand="5">Skechers</button>
-    <button class="brand-side-btn" data-brand="6">Adidas Sport</button>
-    <button class="brand-side-btn" data-brand="7">Marcolin</button>
-  </div>
-
-  <div id="brand-menu">
-    <button class="brand-btn" id="toggle-autorotate-btn">Stop Rotation</button>
-    <button class="brand-btn" id="toggle-mapping-btn">Enable Mapping</button>
-    <div class="rotation-sliders">
-      <div class="slider-row">
-        <label>X</label>
-        <input type="range" id="slider-x" min="-3.14159" max="3.14159" step="0.01" value="0">
-        <span class="value" id="value-x">0°</span>
+      <div class="filters" id="filters" role="group" aria-label="Filter by state">
+        <button type="button" class="filter-btn is-active" data-state="ALL">All</button>
+        <button type="button" class="filter-btn" data-state="MD">MD</button>
+        <button type="button" class="filter-btn" data-state="DE">DE</button>
+        <button type="button" class="filter-btn" data-state="VA">VA</button>
+        <button type="button" class="filter-btn" data-state="WV">WV</button>
       </div>
-      <div class="slider-row">
-        <label>Y</label>
-        <input type="range" id="slider-y" min="-3.14159" max="3.14159" step="0.01" value="0">
-        <span class="value" id="value-y">0°</span>
-      </div>
-      <div class="slider-row">
-        <label>Z</label>
-        <input type="range" id="slider-z" min="-3.14159" max="3.14159" step="0.01" value="0">
-        <span class="value" id="value-z">0°</span>
-      </div>
-    </div>
-    <button class="brand-btn save-btn" id="save-brand-btn">+ Save Rotation</button>
-    <div id="brand-list" style="display: none;"></div>
+
+      <ul class="location-list" id="location-list"></ul>
+      <p class="empty" id="empty-state" hidden>No locations match that search.</p>
+    </aside>
   </div>
 
-  <button id="back-to-selection">← Back to Brands</button>
-
-  <div id="brand-detail">
-    <div id="brand-detail-header">
-      <h2 id="brand-detail-name">Brand Name</h2>
-      <p id="brand-detail-tagline">Premium eyewear collection</p>
-    </div>
-
-    <div class="brand-detail-section">
-      <h3>About the Brand</h3>
-      <p id="brand-description"></p>
-    </div>
-
-    <div class="brand-detail-section" id="pricing-section">
-      <h3>Pricing</h3>
-      <div id="brand-pricing" class="pricing-grid"></div>
-    </div>
-
-    <div class="brand-detail-section" id="eyewear-facts-section">
-      <h3>Eyewear Facts</h3>
-      <ul id="eyewear-facts" class="facts-list"></ul>
-    </div>
-
-    <div class="brand-detail-section" id="mission-section">
-      <h3>Our Mission</h3>
-      <p id="brand-mission"></p>
-    </div>
-
-    <div class="brand-detail-section" id="highlights-section">
-      <h3>Highlights</h3>
-      <ul id="brand-highlights" class="facts-list"></ul>
-    </div>
-
-    <div class="brand-detail-section" id="consumer-section">
-      <h3>Target Consumer</h3>
-      <div id="target-consumer" class="consumer-card"></div>
-    </div>
-  </div>
-
-  <footer>
-    <p>&copy; 2026 World Cup</p>
-  </footer>
-
-  <script type="importmap">
-    {
-      "imports": {
-        "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
-        "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
-      }
-    }
-  </script>
+  <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/maplibre-gl@5/dist/maplibre-gl.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@maplibre/maplibre-gl-leaflet/leaflet-maplibre-gl.js"></script>
   <script type="module" src="js/main.js"></script>
 </body>
 </html>
