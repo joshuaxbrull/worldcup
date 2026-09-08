@@ -1,0 +1,9 @@
+marcolin-release/
+.env*
+.dev.vars*
+.wrangler/
+node_modules/
+*.pem
+*.key
+*.p12
+*.pfx
